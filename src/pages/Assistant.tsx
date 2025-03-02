@@ -12,8 +12,8 @@ const Assistant = () => {
 
       <main className="flex-1 container py-24">
         <PageHeader
-          title="AI Legal Assistant"
-          description="Ask questions about music contracts, copyright, royalties, and more. Get clear explanations tailored to independent artists."
+          title="Assistant Juridique IA"
+          description="Posez des questions sur les contrats musicaux, les droits d'auteur, les redevances et plus encore. Obtenez des explications claires adaptées aux artistes indépendants."
         />
 
         <ChatInterface />

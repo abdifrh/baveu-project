@@ -1,11 +1,4 @@
 
-import { toast } from 'sonner';
-
-// AIML API configuration
-const AIML_API_KEY = 'b1422c38a2f449d18d57efe78fb1e0e2';
-const AIML_API_URL = 'https://aimlapi.com/api/chat';
-
-// Message types
 export interface Message {
   id: string;
   role: 'user' | 'assistant' | 'system';
@@ -13,109 +6,84 @@ export interface Message {
   createdAt: Date;
 }
 
-interface AIMLRequestBody {
-  messages: {
-    role: string;
-    content: string;
-  }[];
-  temperature?: number;
-  max_tokens?: number;
-  stream?: boolean;
-}
+// Clé API AIML
+const AIML_API_KEY = 'b1422c38a2f449d18d57efe78fb1e0e2';
 
-interface AIMLResponse {
-  choices: {
-    message: {
-      role: string;
-      content: string;
-    };
-  }[];
-}
+// Message système qui établit le contexte juridique musical
+const SYSTEM_MESSAGE = `Vous êtes un assistant juridique spécialisé dans l'industrie musicale, conçu pour aider les artistes indépendants à comprendre les aspects juridiques et contractuels de leur carrière musicale.
 
-// System message to set the context for the AI
-const SYSTEM_MESSAGE = `You are LegalBeat, a specialized AI assistant designed to help indie musicians and young artists navigate the legal aspects of the music industry. 
+Votre expertise couvre:
+- Les contrats de distribution musicale (physique et numérique)
+- Les contrats d'édition musicale
+- Les contrats de management et d'agent
+- Les droits d'auteur et copyright
+- Les redevances (streaming, mécaniques, synchronisation)
+- Les licences et autorisations
+- La protection de la propriété intellectuelle
 
-Your expertise includes:
-- Music contracts (recording, publishing, distribution, etc.)
-- Copyright and intellectual property in music
-- Royalty structures and payments
-- Licensing and synchronization
-- Legal terminology and implications
+Répondez de manière claire, précise et accessible aux artistes sans expérience juridique. Expliquez les termes techniques. Si une question dépasse votre expertise ou nécessite un conseil juridique spécifique, recommandez la consultation d'un avocat spécialisé.
 
-When responding:
-- Be clear, concise, and accessible - avoid excessive legal jargon
-- Always clarify that you are providing information, not legal advice
-- When appropriate, suggest consulting with a qualified music attorney
-- Focus on empowering artists to make informed decisions
-- Prioritize explaining the artist's rights and protections
+Concentrez-vous sur:
+1. Expliquer clairement les concepts juridiques
+2. Identifier les points d'attention dans les contrats
+3. Fournir des conseils généraux de négociation
+4. Présenter les pratiques standards de l'industrie
 
-Remember that your primary goal is to help independent artists understand their legal rights and options in the music industry.`;
+Rappelez toujours que vos réponses sont des informations générales et non des conseils juridiques personnalisés.`;
 
-// Generate a unique ID for messages
-const generateId = (): string => {
-  return Math.random().toString(36).substring(2, 15);
-};
-
-// Main function to send messages to AIML API
+// Fonction pour envoyer un message à l'API AIML
 export const sendMessageToAIML = async (
   messages: Message[],
-  onSuccess?: (message: Message) => void,
-  onError?: (error: Error) => void
-): Promise<Message | null> => {
+  onMessageReceived: (message: Message) => void,
+  onError: (error: Error) => void
+) => {
   try {
-    // Prepare the API request with the system message and conversation history
-    const apiMessages = [
-      { role: 'system', content: SYSTEM_MESSAGE },
-      ...messages
-        .filter(m => m.role !== 'system')
-        .map(m => ({ role: m.role, content: m.content }))
-    ];
-
-    const requestBody: AIMLRequestBody = {
-      messages: apiMessages,
-      temperature: 0.7,
-      max_tokens: 1000
+    // Préparer les messages pour l'API AIML
+    const systemMessage = {
+      role: 'system',
+      content: SYSTEM_MESSAGE
     };
 
-    const response = await fetch(AIML_API_URL, {
+    const formattedMessages = [
+      systemMessage,
+      ...messages.map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }))
+    ];
+
+    // Appel à l'API AIML
+    const response = await fetch('https://aimlapi.com/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${AIML_API_KEY}`
       },
-      body: JSON.stringify(requestBody)
+      body: JSON.stringify({
+        messages: formattedMessages,
+        model: 'gpt-4', // Vous pouvez ajuster le modèle selon vos besoins
+        stream: false    // Ne pas utiliser le streaming pour simplifier
+      })
     });
 
     if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
+      throw new Error(`Erreur API: ${response.status}`);
     }
 
-    const data: AIMLResponse = await response.json();
+    const data = await response.json();
     
-    if (!data.choices || data.choices.length === 0) {
-      throw new Error('No response from API');
-    }
-
+    // Créer un nouveau message avec la réponse
     const newMessage: Message = {
-      id: generateId(),
+      id: Math.random().toString(36).substring(2, 15),
       role: 'assistant',
       content: data.choices[0].message.content,
       createdAt: new Date()
     };
 
-    if (onSuccess) {
-      onSuccess(newMessage);
-    }
-
-    return newMessage;
+    // Appeler le callback avec le nouveau message
+    onMessageReceived(newMessage);
   } catch (error) {
-    console.error('Error calling AIML API:', error);
-    
-    if (onError && error instanceof Error) {
-      onError(error);
-    }
-    
-    toast.error('Failed to get a response from the AI assistant. Please try again.');
-    return null;
+    console.error('Erreur lors de l\'appel à l\'API AIML:', error);
+    onError(error as Error);
   }
 };

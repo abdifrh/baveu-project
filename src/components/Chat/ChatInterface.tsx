@@ -35,11 +35,11 @@ const ChatInterface = () => {
 
   const handleClearChat = () => {
     if (messages.length === 0) {
-      toast.info('Chat is already empty');
+      toast.info('Le chat est déjà vide');
       return;
     }
     
-    if (window.confirm('Are you sure you want to clear the chat history?')) {
+    if (window.confirm('Êtes-vous sûr de vouloir effacer l\'historique du chat ?')) {
       clearChat();
     }
   };
@@ -55,11 +55,11 @@ const ChatInterface = () => {
     <GlassCard className="flex flex-col h-[calc(100vh-220px)] min-h-[500px] shadow-md hover:shadow-md">
       {/* Chat Header */}
       <div className="flex justify-between items-center pb-4 border-b">
-        <h3 className="font-display text-lg font-medium">Legal Assistant</h3>
+        <h3 className="font-display text-lg font-medium">Assistant Juridique</h3>
         <button
           onClick={handleClearChat}
           className="text-muted-foreground hover:text-destructive transition-colors p-2 rounded-full"
-          title="Clear chat history"
+          title="Effacer l'historique du chat"
         >
           <Trash2 className="h-4 w-4" />
         </button>
@@ -69,25 +69,25 @@ const ChatInterface = () => {
       <div className="flex-1 overflow-y-auto py-4 px-1">
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
-            <p className="mb-4 font-display text-lg">How can I help you today?</p>
+            <p className="mb-4 font-display text-lg">Comment puis-je vous aider aujourd'hui ?</p>
             <div className="grid grid-cols-1 gap-3 max-w-md">
               <button
-                onClick={() => sendMessage("What should I look for in a music distribution contract?")}
+                onClick={() => sendMessage("Que dois-je rechercher dans un contrat de distribution musicale ?")}
                 className="text-sm px-4 py-2 border rounded-lg hover:bg-secondary transition-colors text-left"
               >
-                What should I look for in a music distribution contract?
+                Que dois-je rechercher dans un contrat de distribution musicale ?
               </button>
               <button
-                onClick={() => sendMessage("Explain copyright ownership in simple terms")}
+                onClick={() => sendMessage("Expliquer les droits d'auteur en termes simples")}
                 className="text-sm px-4 py-2 border rounded-lg hover:bg-secondary transition-colors text-left"
               >
-                Explain copyright ownership in simple terms
+                Expliquer les droits d'auteur en termes simples
               </button>
               <button
-                onClick={() => sendMessage("What are mechanical royalties?")}
+                onClick={() => sendMessage("Qu'est-ce que les redevances mécaniques ?")}
                 className="text-sm px-4 py-2 border rounded-lg hover:bg-secondary transition-colors text-left"
               >
-                What are mechanical royalties?
+                Qu'est-ce que les redevances mécaniques ?
               </button>
             </div>
           </div>
@@ -103,7 +103,7 @@ const ChatInterface = () => {
         {isLoading && (
           <div className="flex items-center space-x-2 text-muted-foreground animate-pulse">
             <Loader2 className="h-4 w-4 animate-spin" />
-            <span className="text-sm">LegalBeat is thinking...</span>
+            <span className="text-sm">LegalBeat réfléchit...</span>
           </div>
         )}
 
@@ -118,7 +118,7 @@ const ChatInterface = () => {
             ref={inputRef}
             value={inputValue}
             onChange={handleTextareaChange}
-            placeholder="Ask a question about music contracts, royalties, copyright..."
+            placeholder="Posez une question sur les contrats musicaux, les redevances, les droits d'auteur..."
             className="flex-1 max-h-[150px] resize-none bg-transparent border-0 focus:ring-0 px-0 py-2"
             rows={1}
             onKeyDown={(e) => {

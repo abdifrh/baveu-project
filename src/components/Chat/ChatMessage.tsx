@@ -9,7 +9,7 @@ interface ChatMessageProps {
 }
 
 const formatTime = (date: Date): string => {
-  return new Intl.DateTimeFormat('default', {
+  return new Intl.DateTimeFormat('fr-FR', {
     hour: 'numeric',
     minute: 'numeric'
   }).format(date);
@@ -44,7 +44,7 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
         <div className="flex-1">
           <div className="flex justify-between items-start mb-1">
             <span className="font-medium text-sm">
-              {isUser ? 'You' : 'LegalBeat'}
+              {isUser ? 'Vous' : 'LegalBeat'}
             </span>
             <span className="text-xs opacity-70 flex items-center ml-2">
               <Clock className="h-3 w-3 mr-1" />

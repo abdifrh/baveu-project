@@ -7,38 +7,38 @@ export const useChat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Load messages from localStorage on component mount
+  // Chargement des messages depuis le localStorage au montage du composant
   useEffect(() => {
     const savedMessages = localStorage.getItem('legalbeat-chat');
     if (savedMessages) {
       try {
         const parsedMessages = JSON.parse(savedMessages);
-        // Ensure createdAt is a Date object
+        // S'assurer que createdAt est un objet Date
         const formattedMessages = parsedMessages.map((msg: any) => ({
           ...msg,
           createdAt: new Date(msg.createdAt)
         }));
         setMessages(formattedMessages);
       } catch (error) {
-        console.error('Error parsing saved messages:', error);
-        // If there's an error, clear the localStorage
+        console.error('Erreur lors de l\'analyse des messages sauvegardés:', error);
+        // En cas d'erreur, effacer le localStorage
         localStorage.removeItem('legalbeat-chat');
       }
     }
   }, []);
 
-  // Save messages to localStorage whenever they change
+  // Sauvegarder les messages dans le localStorage à chaque modification
   useEffect(() => {
     if (messages.length > 0) {
       localStorage.setItem('legalbeat-chat', JSON.stringify(messages));
     }
   }, [messages]);
 
-  // Send a message and get a response
+  // Envoyer un message et obtenir une réponse
   const sendMessage = useCallback(async (content: string) => {
     if (!content.trim()) return;
 
-    // Create user message
+    // Créer le message utilisateur
     const userMessage: Message = {
       id: Math.random().toString(36).substring(2, 15),
       role: 'user',
@@ -46,12 +46,12 @@ export const useChat = () => {
       createdAt: new Date()
     };
 
-    // Add user message to state
+    // Ajouter le message utilisateur à l'état
     setMessages(prev => [...prev, userMessage]);
     setIsLoading(true);
 
     try {
-      // Send to API
+      // Envoyer à l'API
       const allMessages = [...messages, userMessage];
       await sendMessageToAIML(
         allMessages,
@@ -60,23 +60,23 @@ export const useChat = () => {
           setIsLoading(false);
         },
         (error) => {
-          console.error('Error in chat:', error);
-          toast.error('Failed to get a response. Please try again.');
+          console.error('Erreur dans le chat:', error);
+          toast.error('Impossible d\'obtenir une réponse. Veuillez réessayer.');
           setIsLoading(false);
         }
       );
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error('Erreur lors de l\'envoi du message:', error);
       setIsLoading(false);
-      toast.error('Something went wrong. Please try again.');
+      toast.error('Une erreur s\'est produite. Veuillez réessayer.');
     }
   }, [messages]);
 
-  // Clear all messages
+  // Effacer tous les messages
   const clearChat = useCallback(() => {
     setMessages([]);
     localStorage.removeItem('legalbeat-chat');
-    toast.success('Chat history cleared');
+    toast.success('Historique du chat effacé');
   }, []);
 
   return {
