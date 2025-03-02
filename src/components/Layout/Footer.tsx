@@ -12,15 +12,15 @@ const Footer = () => {
         <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
           <div className="flex items-center space-x-2">
             <Music className="h-5 w-5 text-primary" />
-            <span className="font-display font-medium">LegalBeat</span>
+            <span className="font-display font-medium">BAVEU</span>
           </div>
           
           <div className="text-center md:text-right">
             <p className="text-sm text-muted-foreground">
-              &copy; {currentYear} LegalBeat. All rights reserved.
+              &copy; {currentYear} BAVEU. Tous droits réservés.
             </p>
             <p className="mt-1 text-xs text-muted-foreground/80">
-              Made with <Heart className="inline-block h-3 w-3 text-destructive" /> for indie artists
+              Créé avec <Heart className="inline-block h-3 w-3 text-destructive" /> pour les artistes indépendants
             </p>
           </div>
         </div>

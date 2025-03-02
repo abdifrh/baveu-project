@@ -6,154 +6,154 @@ import Footer from '@/components/Layout/Footer';
 import PageHeader from '@/components/UI/PageHeader';
 import GlassCard from '@/components/UI/GlassCard';
 
-// Knowledge base categories
+// Catégories de la base de connaissances
 const categories = [
   {
     id: 'contracts',
-    title: 'Contract Types',
+    title: 'Types de Contrats',
     icon: FilePlus,
-    description: 'Different types of contracts in the music industry'
+    description: 'Différents types de contrats dans l\'industrie musicale'
   },
   {
     id: 'terms',
-    title: 'Legal Terms',
+    title: 'Termes Juridiques',
     icon: FileText,
-    description: 'Common legal terminology in music contracts'
+    description: 'Terminologie juridique courante dans les contrats musicaux'
   },
   {
     id: 'negotiation',
-    title: 'Negotiation Tips',
+    title: 'Conseils de Négociation',
     icon: Handshake,
-    description: 'How to approach contract negotiations'
+    description: 'Comment aborder les négociations contractuelles'
   }
 ];
 
-// Sample knowledge base items
+// Exemples d'éléments de la base de connaissances
 const knowledgeItems = [
   {
     id: '1',
     category: 'contracts',
-    title: 'Recording Contract',
-    summary: 'Agreement between an artist and a record label for recording and distributing music',
+    title: 'Contrat d\'Enregistrement',
+    summary: 'Accord entre un artiste et un label pour l\'enregistrement et la distribution de musique',
     content: `
-      A recording contract (also known as a record deal) is an agreement between an artist and a record label where the label agrees to produce, distribute, and market the artist's music. In return, the artist typically grants the label ownership rights to the recordings.
+      Un contrat d'enregistrement (aussi connu sous le nom de contrat discographique) est un accord entre un artiste et un label discographique où le label s'engage à produire, distribuer et commercialiser la musique de l'artiste. En retour, l'artiste accorde généralement au label des droits de propriété sur les enregistrements.
 
-      Key points to understand:
+      Points clés à comprendre :
       
-      - Royalty Rate: The percentage of revenue the artist receives from sales/streams
-      - Advance: An upfront payment that is recoupable against future royalties
-      - Term: How long the contract lasts, often defined by album cycles
-      - Ownership: Who owns the master recordings (typically the label)
-      - Territory: Where the label can distribute your music
-      - Options: The label's right to extend the contract for additional albums
+      - Taux de Redevance : Le pourcentage des revenus que l'artiste reçoit des ventes/streams
+      - Avance : Un paiement anticipé récupérable sur les futures redevances
+      - Durée : La durée du contrat, souvent définie par cycles d'albums
+      - Propriété : Qui possède les enregistrements master (généralement le label)
+      - Territoire : Où le label peut distribuer votre musique
+      - Options : Le droit du label de prolonger le contrat pour des albums supplémentaires
 
-      Many recording contracts are structured to heavily favor the label. Artists should pay special attention to ownership rights, royalty calculations, and how advances are recouped.
+      De nombreux contrats d'enregistrement sont structurés pour favoriser fortement le label. Les artistes doivent porter une attention particulière aux droits de propriété, aux calculs des redevances et à la façon dont les avances sont récupérées.
     `
   },
   {
     id: '2',
     category: 'contracts',
-    title: 'Publishing Agreement',
-    summary: 'Contract that manages the ownership and administration of song compositions',
+    title: 'Contrat d\'Édition Musicale',
+    summary: 'Contrat qui gère la propriété et l\'administration des compositions musicales',
     content: `
-      A music publishing agreement is a contract between a songwriter and a music publisher where the songwriter grants certain rights to their compositions in exchange for promotion, administration services, and royalty collection.
+      Un contrat d'édition musicale est un accord entre un auteur-compositeur et un éditeur musical où l'auteur-compositeur accorde certains droits sur ses compositions en échange de promotion, de services d'administration et de collecte de redevances.
 
-      Important elements include:
+      Éléments importants à considérer :
       
-      - Copyright Assignment: Many publishers request partial or full ownership of compositions
-      - Admin Rights: Rights to license your music for various uses
-      - Term: Duration of the agreement
-      - Territory: Geographic scope where the publisher represents your works
-      - Advances: Upfront payments recoupable against future royalties
-      - Commission: Percentage the publisher keeps (typically 10-50%)
+      - Cession de Droits d'Auteur : De nombreux éditeurs demandent la propriété partielle ou totale des compositions
+      - Droits d'Administration : Droits d'autorisation d'utilisation de votre musique à diverses fins
+      - Durée : Période de validité de l'accord
+      - Territoire : Portée géographique où l'éditeur représente vos œuvres
+      - Avances : Paiements anticipés récupérables sur les futures redevances
+      - Commission : Pourcentage que l'éditeur conserve (généralement 10-50%)
       
-      Publishing deals can significantly impact a songwriter's income for years or even decades. Understanding which rights you're giving up and for how long is critical before signing.
+      Les contrats d'édition peuvent avoir un impact significatif sur les revenus d'un auteur-compositeur pendant des années, voire des décennies. Comprendre quels droits vous cédez et pour combien de temps est essentiel avant de signer.
     `
   },
   {
     id: '3',
     category: 'terms',
-    title: 'Mechanical Royalties',
-    summary: 'Payments for the reproduction of compositions in physical or digital formats',
+    title: 'Redevances Mécaniques',
+    summary: 'Paiements pour la reproduction de compositions sur supports physiques ou numériques',
     content: `
-      Mechanical royalties are payments made to songwriters and publishers for the reproduction of their compositions in physical formats (CDs, vinyl) or digital downloads. They are distinct from performance royalties.
+      Les redevances mécaniques sont des paiements versés aux auteurs-compositeurs et aux éditeurs pour la reproduction de leurs compositions sur supports physiques (CD, vinyle) ou en téléchargements numériques. Elles sont distinctes des redevances de performance.
 
-      Key information:
+      Informations essentielles :
       
-      - In the US, mechanical rates are set by the Copyright Royalty Board
-      - For streams, mechanicals are a portion of the total royalty payment
-      - These royalties are typically collected by organizations like the MLC (in the US)
-      - For physical products, the current rate is 9.1¢ per song under 5 minutes
-      - For digital downloads, the same rate applies as physical products
-      - For streaming, the formulas are more complex and constantly changing
+      - Aux États-Unis, les taux mécaniques sont fixés par le Copyright Royalty Board
+      - Pour les streams, les mécaniques représentent une portion du paiement total des redevances
+      - Ces redevances sont généralement collectées par des organisations comme la MLC (aux États-Unis)
+      - Pour les produits physiques, le taux actuel est de 9,1¢ par morceau de moins de 5 minutes
+      - Pour les téléchargements numériques, le même taux s'applique que pour les produits physiques
+      - Pour le streaming, les formules sont plus complexes et évoluent constamment
       
-      As a songwriter, ensuring you're registered correctly with mechanical collection societies is essential to collecting all royalties owed to you.
+      En tant qu'auteur-compositeur, s'assurer d'être correctement enregistré auprès des sociétés de perception mécanique est essentiel pour collecter toutes les redevances qui vous sont dues.
     `
   },
   {
     id: '4',
     category: 'terms',
-    title: 'Work For Hire',
-    summary: 'Legal designation where creator gives up ownership rights to their work',
+    title: 'Œuvre sur Commande',
+    summary: 'Désignation juridique où le créateur abandonne ses droits de propriété sur son œuvre',
     content: `
-      A "work for hire" is a legal designation where the person or company that commissions a work is considered the legal author and owner, not the actual creator. In music, this often appears in producer agreements, session musician contracts, and some songwriter agreements.
+      Une "œuvre sur commande" est une désignation juridique où la personne ou l'entreprise qui commande une œuvre est considérée comme l'auteur et le propriétaire légal, et non le créateur réel. Dans la musique, cela apparaît souvent dans les contrats de producteurs, les contrats de musiciens de session et certains accords d'auteurs-compositeurs.
 
-      Important considerations:
+      Considérations importantes :
       
-      - Under a work for hire, you have no ownership rights to your creation
-      - You typically receive a one-time payment with no ongoing royalties
-      - The commissioning party can use, modify, or sell the work without your permission
-      - These agreements can sometimes be negotiated to include royalties while still transferring ownership
-      - For creative work, consider negotiating a license instead of a work for hire when possible
+      - Dans le cadre d'une œuvre sur commande, vous n'avez aucun droit de propriété sur votre création
+      - Vous recevez généralement un paiement unique sans redevances continues
+      - La partie commanditaire peut utiliser, modifier ou vendre l'œuvre sans votre permission
+      - Ces accords peuvent parfois être négociés pour inclure des redevances tout en transférant la propriété
+      - Pour les œuvres créatives, envisagez de négocier une licence plutôt qu'une œuvre sur commande lorsque c'est possible
       
-      Be very cautious about signing work for hire agreements for your creative output, as you're permanently giving up all rights to your work.
+      Soyez très prudent avant de signer des contrats d'œuvre sur commande pour votre production créative, car vous abandonnez définitivement tous les droits sur votre travail.
     `
   },
   {
     id: '5',
     category: 'negotiation',
-    title: 'Negotiating Your First Record Deal',
-    summary: 'Strategies for approaching your first recording contract negotiation',
+    title: 'Négocier Votre Premier Contrat Discographique',
+    summary: 'Stratégies pour aborder votre première négociation de contrat d\'enregistrement',
     content: `
-      When negotiating your first record deal, coming prepared with knowledge is your best strategy. Here are key points to consider:
+      Lors de la négociation de votre premier contrat discographique, se présenter avec des connaissances est votre meilleure stratégie. Voici les points clés à considérer :
 
-      Preparation steps:
+      Étapes de préparation :
       
-      - Research the label's typical deals and artist treatment
-      - Know your leverage (streaming numbers, social following, live draw)
-      - Identify your non-negotiables vs. flexible points
-      - Consider having an entertainment attorney review before signing
+      - Recherchez les contrats typiques du label et le traitement des artistes
+      - Connaissez votre pouvoir de négociation (nombre de streams, audience sur les réseaux sociaux, capacité à attirer du public en live)
+      - Identifiez vos points non-négociables vs. flexibles
+      - Envisagez de faire examiner le contrat par un avocat spécialisé avant de signer
       
-      Key areas to focus on:
+      Domaines clés à surveiller :
       
-      - Royalty rate: Industry standard is 15-18% for new artists, but can vary
-      - Ownership: Try to retain ownership or secure rights reversion after a period
-      - Creative control: Ensure you have input on singles, videos, etc.
-      - Term: Shorter initial terms with option periods are preferable
-      - Budget: Clear understanding of marketing and recording budgets
+      - Taux de redevance : La norme de l'industrie est de 15-18% pour les nouveaux artistes, mais peut varier
+      - Propriété : Essayez de conserver la propriété ou de sécuriser la réversion des droits après une certaine période
+      - Contrôle créatif : Assurez-vous d'avoir votre mot à dire sur les singles, les vidéos, etc.
+      - Durée : Des durées initiales plus courtes avec des périodes d'option sont préférables
+      - Budget : Une compréhension claire des budgets marketing et d'enregistrement
       
-      Remember that everything is negotiable, but also be realistic about your bargaining power as a new artist. Focus on the terms that will most impact your future.
+      Rappelez-vous que tout est négociable, mais soyez également réaliste quant à votre pouvoir de négociation en tant que nouvel artiste. Concentrez-vous sur les termes qui auront le plus d'impact sur votre avenir.
     `
   },
   {
     id: '6',
     category: 'negotiation',
-    title: 'Red Flags in Music Contracts',
-    summary: 'Warning signs to watch for when reviewing agreements',
+    title: 'Signaux d\'Alarme dans les Contrats Musicaux',
+    summary: 'Signes d\'avertissement à surveiller lors de l\'examen des accords',
     content: `
-      When reviewing music contracts, watch for these common red flags:
+      Lors de l'examen des contrats musicaux, surveillez ces signaux d'alarme courants :
 
-      Concerning contract elements:
+      Éléments contractuels préoccupants :
       
-      - Perpetual rights: Agreements that never end or have unlimited option periods
-      - All-rights deals: Contracts claiming rights across all income streams (recording, publishing, merchandise, touring)
-      - Vague recoupment terms: Unclear language about what expenses will be charged against your royalties
-      - Cross-collateralization: Allowing the label to recoup expenses from one project against revenues from another
-      - Net profit definitions: Clauses that make it difficult to ever see "profit"
-      - Approval rights: The company having final say on all creative decisions
-      - Overly broad territory: Worldwide rights for a small company that can't effectively work globally
+      - Droits perpétuels : Accords qui ne se terminent jamais ou qui ont des périodes d'option illimitées
+      - Contrats tous droits : Contrats revendiquant des droits sur toutes les sources de revenus (enregistrement, édition, merchandising, tournées)
+      - Termes de récupération vagues : Langage peu clair sur les dépenses qui seront imputées sur vos redevances
+      - Cross-collateralisation : Permettre au label de récupérer les dépenses d'un projet sur les revenus d'un autre
+      - Définitions du bénéfice net : Clauses qui rendent difficile de jamais voir de "profit"
+      - Droits d'approbation : La société ayant le dernier mot sur toutes les décisions créatives
+      - Territoire trop large : Droits mondiaux pour une petite entreprise qui ne peut pas travailler efficacement à l'échelle mondiale
       
-      If you encounter these elements, consider negotiating modifications or seeking legal advice before proceeding. These terms can significantly impact your career and earning potential long-term.
+      Si vous rencontrez ces éléments, envisagez de négocier des modifications ou de demander un avis juridique avant de procéder. Ces termes peuvent avoir un impact significatif sur votre carrière et votre potentiel de revenus à long terme.
     `
   }
 ];
@@ -163,7 +163,7 @@ const KnowledgeBase = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<typeof knowledgeItems[0] | null>(null);
 
-  // Filter knowledge items by search term and category
+  // Filtrer les éléments de connaissance par terme de recherche et catégorie
   const filteredItems = knowledgeItems.filter(item => {
     const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           item.summary.toLowerCase().includes(searchTerm.toLowerCase());
@@ -177,8 +177,8 @@ const KnowledgeBase = () => {
 
       <main className="flex-1 container py-24">
         <PageHeader
-          title="Knowledge Base"
-          description="Explore our library of music legal resources, contract explanations, and industry terminology."
+          title="Base de Connaissances"
+          description="Explorez notre bibliothèque de ressources juridiques musicales, d'explications contractuelles et de terminologie de l'industrie."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -189,7 +189,7 @@ const KnowledgeBase = () => {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <input
                   type="text"
-                  placeholder="Search knowledge base..."
+                  placeholder="Rechercher dans la base de connaissances..."
                   className="w-full pl-10 pr-4 py-2 bg-transparent border-b focus:outline-none focus:border-primary transition-colors"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -200,7 +200,7 @@ const KnowledgeBase = () => {
             <GlassCard>
               <h3 className="font-display text-lg font-medium flex items-center mb-4">
                 <BookOpen className="mr-2 h-5 w-5" />
-                Categories
+                Catégories
               </h3>
               
               <div className="space-y-2">
@@ -210,7 +210,7 @@ const KnowledgeBase = () => {
                   }`}
                   onClick={() => setSelectedCategory(null)}
                 >
-                  All Categories
+                  Toutes les Catégories
                 </button>
                 
                 {categories.map((category) => (
@@ -240,7 +240,7 @@ const KnowledgeBase = () => {
                   onClick={() => setSelectedItem(null)}
                 >
                   <ArrowRight className="mr-1 h-4 w-4 rotate-180" />
-                  Back to list
+                  Retour à la liste
                 </button>
 
                 <h2 className="font-display text-2xl font-semibold mb-2">{selectedItem.title}</h2>
@@ -265,7 +265,7 @@ const KnowledgeBase = () => {
                           <h3 className="font-display text-xl font-medium mb-2">{item.title}</h3>
                           <p className="text-muted-foreground mb-4 flex-1">{item.summary}</p>
                           <div className="flex items-center text-primary mt-auto">
-                            Read more <ArrowRight className="ml-1 h-4 w-4" />
+                            Lire plus <ArrowRight className="ml-1 h-4 w-4" />
                           </div>
                         </button>
                       </GlassCard>
@@ -274,9 +274,9 @@ const KnowledgeBase = () => {
                 ) : (
                   <GlassCard className="text-center py-12">
                     <BookOpen className="h-10 w-10 text-muted-foreground mx-auto mb-4" />
-                    <h3 className="font-display text-xl font-medium mb-2">No results found</h3>
+                    <h3 className="font-display text-xl font-medium mb-2">Aucun résultat trouvé</h3>
                     <p className="text-muted-foreground mb-4">
-                      Try adjusting your search terms or category filter.
+                      Essayez d'ajuster vos termes de recherche ou le filtre de catégorie.
                     </p>
                   </GlassCard>
                 )}

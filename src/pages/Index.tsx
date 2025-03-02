@@ -19,26 +19,26 @@ const Index = () => {
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16 items-center">
             <div className="animate-slide-up">
               <div className="inline-block mb-4 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
-                For Independent Artists
+                Pour les Artistes Indépendants
               </div>
               <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-                Navigate Music Law with <span className="text-primary">Confidence</span>
+                Naviguez le droit musical avec <span className="text-primary">Confiance</span>
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-lg">
-                LegalBeat helps independent musicians understand contract terms, protect their rights, and make informed decisions about their career.
+                BAVEU aide les musiciens indépendants à comprendre les termes des contrats, protéger leurs droits et prendre des décisions éclairées sur leur carrière.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <button 
                   onClick={() => navigate('/assistant')}
                   className="px-6 py-3 font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
                 >
-                  Try the AI Assistant
+                  Essayer l'Assistant IA
                 </button>
                 <button 
                   onClick={() => navigate('/knowledge-base')}
                   className="px-6 py-3 font-medium rounded-lg border hover:bg-secondary transition-colors"
                 >
-                  Browse Knowledge Base
+                  Parcourir la Base de Connaissances
                 </button>
               </div>
             </div>
@@ -57,53 +57,53 @@ const Index = () => {
         <section className="container py-16 md:py-24">
           <div className="text-center mb-12 animate-slide-down">
             <h2 className="font-display text-3xl md:text-4xl font-semibold mb-4">
-              Your Legal Companion in Music
+              Votre Compagnon Juridique en Musique
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              From contract explanations to royalty breakdowns, we help you navigate the complex legal landscape of the music industry.
+              Des explications de contrats aux répartitions des redevances, nous vous aidons à naviguer dans le paysage juridique complexe de l'industrie musicale.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <GlassCard className="md:translate-y-8">
               <MessageSquare className="mb-4 h-8 w-8 text-primary" />
-              <h3 className="font-display text-xl font-medium mb-2">AI Legal Assistant</h3>
+              <h3 className="font-display text-xl font-medium mb-2">Assistant Juridique IA</h3>
               <p className="text-muted-foreground mb-4">
-                Ask questions about contracts, royalties, and rights in simple language. Get clear, actionable insights.
+                Posez des questions sur les contrats, les redevances et les droits en langage simple. Obtenez des réponses claires et exploitables.
               </p>
               <button 
                 onClick={() => navigate('/assistant')}
                 className="flex items-center text-primary hover:underline mt-auto"
               >
-                Try it now <ArrowRight className="ml-1 h-4 w-4" />
+                Essayez maintenant <ArrowRight className="ml-1 h-4 w-4" />
               </button>
             </GlassCard>
 
             <GlassCard>
               <BookOpen className="mb-4 h-8 w-8 text-primary" />
-              <h3 className="font-display text-xl font-medium mb-2">Knowledge Library</h3>
+              <h3 className="font-display text-xl font-medium mb-2">Bibliothèque de Connaissances</h3>
               <p className="text-muted-foreground mb-4">
-                Browse our extensive collection of music legal terms and contract explanations. Understand before you sign.
+                Parcourez notre vaste collection de termes juridiques musicaux et d'explications contractuelles. Comprenez avant de signer.
               </p>
               <button 
                 onClick={() => navigate('/knowledge-base')}
                 className="flex items-center text-primary hover:underline mt-auto"
               >
-                Explore <ArrowRight className="ml-1 h-4 w-4" />
+                Explorer <ArrowRight className="ml-1 h-4 w-4" />
               </button>
             </GlassCard>
 
             <GlassCard className="md:translate-y-8">
               <Lightbulb className="mb-4 h-8 w-8 text-primary" />
-              <h3 className="font-display text-xl font-medium mb-2">Negotiation Tips</h3>
+              <h3 className="font-display text-xl font-medium mb-2">Conseils de Négociation</h3>
               <p className="text-muted-foreground mb-4">
-                Learn what's negotiable, what's standard, and how to advocate for your interests when reviewing contracts.
+                Apprenez ce qui est négociable, ce qui est standard et comment défendre vos intérêts lors de l'examen des contrats.
               </p>
               <button 
                 onClick={() => navigate('/assistant')}
                 className="flex items-center text-primary hover:underline mt-auto"
               >
-                Get advice <ArrowRight className="ml-1 h-4 w-4" />
+                Obtenir des conseils <ArrowRight className="ml-1 h-4 w-4" />
               </button>
             </GlassCard>
           </div>
@@ -115,15 +115,15 @@ const Index = () => {
             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
               <div>
                 <h2 className="font-display text-2xl md:text-3xl font-semibold mb-4">
-                  Your Rights, Protected
+                  Vos Droits, Protégés
                 </h2>
                 <p className="text-muted-foreground mb-6 max-w-xl">
-                  We help independent artists level the playing field by demystifying music law and contract terms. Knowledge is power.
+                  Nous aidons les artistes indépendants à égaliser les chances en démystifiant le droit musical et les termes contractuels. La connaissance, c'est le pouvoir.
                 </p>
                 <div className="flex items-center">
                   <Shield className="h-5 w-5 text-primary mr-2" />
                   <span className="text-sm">
-                    Not legal advice, but helpful guidance to point you in the right direction.
+                    Pas un conseil juridique, mais une orientation utile pour vous guider dans la bonne direction.
                   </span>
                 </div>
               </div>
@@ -131,7 +131,7 @@ const Index = () => {
                 onClick={() => navigate('/assistant')}
                 className="px-6 py-3 font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors whitespace-nowrap"
               >
-                Start Now
+                Commencer Maintenant
               </button>
             </div>
           </div>

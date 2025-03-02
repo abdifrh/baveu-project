@@ -5,9 +5,9 @@ import { Menu, X, MoreHorizontal, Music } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const NavLinks = [
-  { name: 'Home', path: '/' },
+  { name: 'Accueil', path: '/' },
   { name: 'Assistant', path: '/assistant' },
-  { name: 'Knowledge Base', path: '/knowledge-base' },
+  { name: 'Base de Connaissances', path: '/knowledge-base' },
 ];
 
 const Navbar = () => {
@@ -45,7 +45,7 @@ const Navbar = () => {
           className="flex items-center space-x-2 font-display text-xl font-semibold"
         >
           <Music className="h-6 w-6 text-primary" />
-          <span>LegalBeat</span>
+          <span>BAVEU</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -70,7 +70,7 @@ const Navbar = () => {
         <button
           className="md:hidden"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+          aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
         >
           {isMenuOpen ? (
             <X className="h-6 w-6" />
