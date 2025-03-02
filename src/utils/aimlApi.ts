@@ -122,7 +122,7 @@ Pour obtenir des conseils juridiques précis adaptés à votre situation, je vou
 
 1. Consulter un avocat spécialisé en droit du divertissement
 2. Contacter une organisation comme la SACEM qui peut offrir des ressources aux artistes
-3. Explorer les ressources éducatives disponibles sur le site de LegalBeat
+3. Explorer les ressources éducatives disponibles sur le site de BAVEU
 
 Y a-t-il un aspect particulier du droit musical sur lequel vous souhaiteriez en savoir plus ? Je ferai de mon mieux pour vous orienter avec les informations dont je dispose.`
 };
@@ -168,8 +168,8 @@ export const sendMessageToAIML = async (
     ];
 
     try {
-      // Appel à l'API AIML
-      const response = await fetch('https://aimlapi.com/api/chat', {
+      // Appel à l'API AIML - Correction de l'URL et du format
+      const response = await fetch('https://api.aiml-api.com/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -177,8 +177,8 @@ export const sendMessageToAIML = async (
         },
         body: JSON.stringify({
           messages: formattedMessages,
-          model: 'gpt-4', // Vous pouvez ajuster le modèle selon vos besoins
-          stream: false    // Ne pas utiliser le streaming pour simplifier
+          model: 'gpt-4',
+          max_tokens: 1000
         })
       });
 
