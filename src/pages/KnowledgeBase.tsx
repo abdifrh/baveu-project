@@ -4,6 +4,8 @@ import Navbar from '@/components/Layout/Navbar';
 import Footer from '@/components/Layout/Footer';
 import PageHeader from '@/components/UI/PageHeader';
 import GlassCard from '@/components/UI/GlassCard';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 // Catégories de la base de connaissances
 const categories = [
@@ -508,10 +510,10 @@ const KnowledgeBase = () => {
                 <h2 className="font-display text-2xl font-semibold mb-2">{selectedItem.title}</h2>
                 <p className="text-muted-foreground mb-6">{selectedItem.summary}</p>
                 
-                <div className="prose prose-slate max-w-none">
-                  {selectedItem.content.split('\n\n').map((paragraph, index) => (
-                    <p key={index}>{paragraph}</p>
-                  ))}
+                <div className="prose prose-slate prose-headings:mt-4 prose-headings:mb-2 prose-p:my-2 prose-pre:my-4 prose-pre:bg-muted/50 prose-pre:p-3 prose-pre:rounded-md prose-li:my-1 max-w-none">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {selectedItem.content}
+                  </ReactMarkdown>
                 </div>
               </GlassCard>
             ) : (

@@ -3,6 +3,8 @@ import React from 'react';
 import { User, Bot, Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Message } from '@/utils/aimlApi';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface ChatMessageProps {
   message: Message;
@@ -52,14 +54,22 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
             </span>
           </div>
           
-          <div className="prose prose-sm max-w-none">
-            {message.content.split('\n').map((line, i) => (
-              <React.Fragment key={i}>
-                {line}
-                {i < message.content.split('\n').length - 1 && <br />}
-              </React.Fragment>
-            ))}
-          </div>
+          {isUser ? (
+            <div className="prose prose-sm max-w-none">
+              {message.content.split('\n').map((line, i) => (
+                <React.Fragment key={i}>
+                  {line}
+                  {i < message.content.split('\n').length - 1 && <br />}
+                </React.Fragment>
+              ))}
+            </div>
+          ) : (
+            <div className="prose prose-sm max-w-none prose-headings:mt-2 prose-headings:mb-1 prose-p:my-1 prose-pre:my-2 prose-pre:bg-muted/50 prose-pre:p-2 prose-pre:rounded-md">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {message.content}
+              </ReactMarkdown>
+            </div>
+          )}
         </div>
       </div>
     </div>
