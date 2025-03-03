@@ -439,13 +439,13 @@ const KnowledgeBase = () => {
     <div className="flex flex-col min-h-screen">
       <Navbar />
 
-      <main className="flex-1 container py-24">
+      <main className="flex-1 container py-16 px-4 md:py-24 md:px-8">
         <PageHeader
           title="Base de Connaissances"
           description="Explorez notre bibliothèque de ressources juridiques musicales, d'explications contractuelles et de terminologie de l'industrie."
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {/* Sidebar */}
           <div className="md:col-span-1">
             <GlassCard className="mb-6">
@@ -498,7 +498,7 @@ const KnowledgeBase = () => {
           {/* Main Content */}
           <div className="md:col-span-2">
             {selectedItem ? (
-              <GlassCard className="animate-fade-in">
+              <GlassCard className="animate-fade-in overflow-hidden">
                 <button
                   className="mb-4 flex items-center text-sm text-primary hover:underline"
                   onClick={() => setSelectedItem(null)}
@@ -510,7 +510,23 @@ const KnowledgeBase = () => {
                 <h2 className="font-display text-2xl font-semibold mb-2">{selectedItem.title}</h2>
                 <p className="text-muted-foreground mb-6">{selectedItem.summary}</p>
                 
-                <div className="prose prose-slate prose-headings:mt-4 prose-headings:mb-2 prose-p:my-2 prose-pre:my-4 prose-pre:bg-muted/50 prose-pre:p-3 prose-pre:rounded-md prose-li:my-1 max-w-none">
+                <div className="prose prose-slate max-w-none font-sans text-foreground overflow-x-auto
+                  prose-headings:font-display 
+                  prose-headings:font-medium 
+                  prose-headings:mt-6 
+                  prose-headings:mb-3 
+                  prose-p:my-3 
+                  prose-p:leading-relaxed
+                  prose-ul:my-3
+                  prose-li:my-1
+                  prose-li:leading-normal
+                  prose-strong:font-semibold
+                  prose-pre:my-4 
+                  prose-pre:p-3 
+                  prose-pre:bg-muted/50 
+                  prose-pre:rounded-md
+                  break-words
+                ">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
                     {selectedItem.content}
                   </ReactMarkdown>
@@ -519,15 +535,15 @@ const KnowledgeBase = () => {
             ) : (
               <>
                 {filteredItems.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     {filteredItems.map((item) => (
-                      <GlassCard key={item.id} className="hover:shadow-lg cursor-pointer animate-fade-in">
+                      <GlassCard key={item.id} className="hover:shadow-lg transition-shadow duration-300 cursor-pointer animate-fade-in h-full">
                         <button
                           className="text-left w-full h-full flex flex-col"
                           onClick={() => setSelectedItem(item)}
                         >
                           <h3 className="font-display text-xl font-medium mb-2">{item.title}</h3>
-                          <p className="text-muted-foreground mb-4 flex-1">{item.summary}</p>
+                          <p className="text-muted-foreground mb-4 flex-1 line-clamp-3">{item.summary}</p>
                           <div className="flex items-center text-primary mt-auto">
                             Lire plus <ArrowRight className="ml-1 h-4 w-4" />
                           </div>
