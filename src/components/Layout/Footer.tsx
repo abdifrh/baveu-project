@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Music, Heart } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -11,8 +11,14 @@ const Footer = () => {
       <div className="container">
         <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
           <div className="flex items-center space-x-2">
-            <Music className="h-5 w-5 text-primary" />
-            <span className="font-display font-medium">BAVEU</span>
+            <Link to="/" className="flex items-center">
+              <img 
+                src="/lovable-uploads/57a09eb7-2124-46b0-9e3a-ef34f5074432.png" 
+                alt="BAVEU Logo" 
+                className="h-6 md:h-8 w-auto"
+              />
+              <span className="sr-only">BAVEU</span>
+            </Link>
           </div>
           
           <div className="text-center md:text-right">

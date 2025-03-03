@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, MoreHorizontal, Music } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const NavLinks = [
@@ -42,10 +42,14 @@ const Navbar = () => {
       <div className="container flex items-center justify-between">
         <Link 
           to="/" 
-          className="flex items-center space-x-2 font-display text-xl font-semibold"
+          className="flex items-center font-display text-xl font-semibold"
         >
-          <Music className="h-6 w-6 text-primary" />
-          <span>BAVEU</span>
+          <img 
+            src="/lovable-uploads/57a09eb7-2124-46b0-9e3a-ef34f5074432.png" 
+            alt="BAVEU Logo" 
+            className="h-8 md:h-10 w-auto transition-all duration-300"
+          />
+          <span className="sr-only">BAVEU</span>
         </Link>
 
         {/* Desktop Navigation */}
