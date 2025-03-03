@@ -93,7 +93,31 @@
   @apply glass rounded-2xl transition-all duration-300 hover:shadow-md;
 }
 
-/* Animations */
+/* Enhanced animations */
+@keyframes shimmer {
+  0%, 100% { background-position: -200% 0; }
+  50% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, 
+    rgba(255,255,255,0) 0%, 
+    rgba(255,255,255,0.2) 50%, 
+    rgba(255,255,255,0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+
+.float {
+  animation: float 5s ease-in-out infinite;
+}
+
 .animate-in {
   animation: animateIn 0.3s ease forwards;
 }
@@ -131,4 +155,65 @@ html {
 
 ::-webkit-scrollbar-thumb {
   @apply bg-muted-foreground/40 rounded-full hover:bg-muted-foreground/60 transition-colors;
+}
+
+/* Text highlight color */
+::selection {
+  @apply bg-primary/30 text-foreground;
+}
+
+/* Custom typography enhancements */
+.text-gradient {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400;
+}
+
+.emphasis {
+  @apply relative;
+}
+
+.emphasis::after {
+  content: '';
+  @apply absolute -bottom-1 left-0 w-full h-0.5 bg-primary/40 rounded;
+}
+
+/* Card hover effects */
+.card-hover {
+  @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-primary/20;
+}
+
+/* Emoji animations */
+.emoji {
+  @apply inline-block transition-transform duration-300;
+}
+
+.emoji:hover {
+  @apply transform scale-125;
+}
+
+/* Link animations */
+.animated-link {
+  @apply relative inline-block text-primary;
+}
+
+.animated-link::after {
+  content: '';
+  @apply absolute w-0 h-0.5 bg-primary left-0 -bottom-1 transition-all duration-300;
+}
+
+.animated-link:hover::after {
+  @apply w-full;
+}
+
+/* Button hover effects */
+.button-hover {
+  @apply transition-all duration-300 relative overflow-hidden;
+}
+
+.button-hover::before {
+  content: '';
+  @apply absolute top-0 left-0 w-full h-full bg-white/20 transform -translate-x-full skew-x-12 transition-transform duration-700;
+}
+
+.button-hover:hover::before {
+  @apply transform translate-x-full;
 }

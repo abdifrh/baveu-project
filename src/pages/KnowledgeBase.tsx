@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Search, BookOpen, ArrowRight, FilePlus, FileText, Handshake, BookMarked, Scale, FileWarning } from 'lucide-react';
 import Navbar from '@/components/Layout/Navbar';
@@ -7,42 +8,48 @@ import GlassCard from '@/components/UI/GlassCard';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-// Catégories de la base de connaissances
+// Catégories de la base de connaissances avec émojis
 const categories = [
   {
     id: 'contracts',
     title: 'Types de Contrats',
     icon: FilePlus,
+    emoji: '📝',
     description: 'Différents types de contrats dans l\'industrie musicale'
   },
   {
     id: 'terms',
     title: 'Termes Juridiques',
     icon: FileText,
+    emoji: '⚖️',
     description: 'Terminologie juridique courante dans les contrats musicaux'
   },
   {
     id: 'negotiation',
     title: 'Conseils de Négociation',
     icon: Handshake,
+    emoji: '🤝',
     description: 'Comment aborder les négociations contractuelles'
   },
   {
     id: 'international',
     title: 'Droit International',
     icon: Scale,
+    emoji: '🌍',
     description: 'Aspects juridiques internationaux de l\'industrie musicale'
   },
   {
     id: 'disputes',
     title: 'Résolution des Litiges',
     icon: FileWarning,
+    emoji: '⚡',
     description: 'Gestion des conflits et litiges dans l\'industrie musicale'
   },
   {
     id: 'digital',
     title: 'Droits Numériques',
     icon: BookMarked,
+    emoji: '💻',
     description: 'Droits numériques et streaming dans l\'industrie musicale'
   }
 ];
@@ -435,20 +442,26 @@ const KnowledgeBase = () => {
     return matchesSearch && matchesCategory;
   });
 
+  // Trouver l'émoji de la catégorie sélectionnée
+  const getEmojiForCategory = (categoryId: string) => {
+    const category = categories.find(cat => cat.id === categoryId);
+    return category?.emoji || '📚';
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
 
       <main className="flex-1 container py-16 px-4 md:py-24 md:px-8">
         <PageHeader
-          title="Base de Connaissances"
+          title={<span className="flex items-center">Base de Connaissances <span className="emoji ml-2">📚</span></span>}
           description="Explorez notre bibliothèque de ressources juridiques musicales, d'explications contractuelles et de terminologie de l'industrie."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {/* Sidebar */}
           <div className="md:col-span-1">
-            <GlassCard className="mb-6">
+            <GlassCard className="mb-6" showSparkle>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <input
@@ -461,7 +474,7 @@ const KnowledgeBase = () => {
               </div>
             </GlassCard>
 
-            <GlassCard>
+            <GlassCard emoji="🔍">
               <h3 className="font-display text-lg font-medium flex items-center mb-4">
                 <BookOpen className="mr-2 h-5 w-5" />
                 Catégories
@@ -474,7 +487,10 @@ const KnowledgeBase = () => {
                   }`}
                   onClick={() => setSelectedCategory(null)}
                 >
-                  Toutes les Catégories
+                  <span className="flex items-center">
+                    <span className="emoji mr-2">🔎</span>
+                    Toutes les Catégories
+                  </span>
                 </button>
                 
                 {categories.map((category) => (
@@ -486,7 +502,7 @@ const KnowledgeBase = () => {
                     onClick={() => setSelectedCategory(category.id)}
                   >
                     <div className="flex items-center">
-                      <category.icon className="mr-2 h-4 w-4" />
+                      <span className="emoji mr-2">{category.emoji}</span>
                       {category.title}
                     </div>
                   </button>
@@ -498,19 +514,22 @@ const KnowledgeBase = () => {
           {/* Main Content */}
           <div className="md:col-span-2">
             {selectedItem ? (
-              <GlassCard className="animate-fade-in overflow-hidden">
+              <GlassCard 
+                className="animate-fade-in" 
+                emoji={getEmojiForCategory(selectedItem.category)}
+              >
                 <button
-                  className="mb-4 flex items-center text-sm text-primary hover:underline"
+                  className="mb-4 flex items-center text-sm text-primary hover:underline animated-link"
                   onClick={() => setSelectedItem(null)}
                 >
                   <ArrowRight className="mr-1 h-4 w-4 rotate-180" />
                   Retour à la liste
                 </button>
 
-                <h2 className="font-display text-2xl font-semibold mb-2">{selectedItem.title}</h2>
+                <h2 className="font-display text-2xl font-semibold mb-2 text-gradient">{selectedItem.title}</h2>
                 <p className="text-muted-foreground mb-6">{selectedItem.summary}</p>
                 
-                <div className="prose prose-slate max-w-none font-sans text-foreground overflow-x-auto
+                <div className="prose prose-slate max-w-none font-sans text-foreground
                   prose-headings:font-display 
                   prose-headings:font-medium 
                   prose-headings:mt-6 
@@ -525,6 +544,7 @@ const KnowledgeBase = () => {
                   prose-pre:p-3 
                   prose-pre:bg-muted/50 
                   prose-pre:rounded-md
+                  prose-p:whitespace-pre-wrap
                   break-words
                 ">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
@@ -537,22 +557,26 @@ const KnowledgeBase = () => {
                 {filteredItems.length > 0 ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     {filteredItems.map((item) => (
-                      <GlassCard key={item.id} className="hover:shadow-lg transition-shadow duration-300 cursor-pointer animate-fade-in h-full">
+                      <GlassCard 
+                        key={item.id} 
+                        className="card-hover cursor-pointer animate-fade-in h-full"
+                        emoji={getEmojiForCategory(item.category)}
+                      >
                         <button
                           className="text-left w-full h-full flex flex-col"
                           onClick={() => setSelectedItem(item)}
                         >
-                          <h3 className="font-display text-xl font-medium mb-2">{item.title}</h3>
+                          <h3 className="font-display text-xl font-medium mb-2 emphasis inline-block">{item.title}</h3>
                           <p className="text-muted-foreground mb-4 flex-1 line-clamp-3">{item.summary}</p>
-                          <div className="flex items-center text-primary mt-auto">
-                            Lire plus <ArrowRight className="ml-1 h-4 w-4" />
+                          <div className="flex items-center text-primary mt-auto animated-link group">
+                            Lire plus <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                           </div>
                         </button>
                       </GlassCard>
                     ))}
                   </div>
                 ) : (
-                  <GlassCard className="text-center py-12">
+                  <GlassCard className="text-center py-12" emoji="🔍">
                     <BookOpen className="h-10 w-10 text-muted-foreground mx-auto mb-4" />
                     <h3 className="font-display text-xl font-medium mb-2">Aucun résultat trouvé</h3>
                     <p className="text-muted-foreground mb-4">
