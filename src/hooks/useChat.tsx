@@ -2,41 +2,164 @@
 import { useState, useCallback, useEffect } from 'react';
 import { toast } from 'sonner';
 import { Message, sendMessageToAIML } from '@/utils/aimlApi';
+import Cookies from 'js-cookie';
+
+export interface ChatSession {
+  id: string;
+  name: string;
+  messages: Message[];
+  createdAt: Date;
+  lastUpdated: Date;
+}
+
+// Générer un ID unique pour une nouvelle session
+const generateSessionId = () => {
+  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+};
+
+// Formater un nom de session par défaut basé sur la date
+const formatDefaultSessionName = (date: Date) => {
+  return `Chat du ${new Intl.DateTimeFormat('fr-FR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  }).format(date)}`;
+};
 
 export const useChat = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [sessions, setSessions] = useState<ChatSession[]>([]);
+  const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Chargement des messages depuis le localStorage au montage du composant
+  // Récupérer la session active
+  const activeSession = activeSessionId 
+    ? sessions.find(session => session.id === activeSessionId) 
+    : sessions.length > 0 ? sessions[0] : null;
+  
+  const messages = activeSession?.messages || [];
+
+  // Chargement des sessions depuis les cookies au montage du composant
   useEffect(() => {
-    const savedMessages = localStorage.getItem('legalbeat-chat');
-    if (savedMessages) {
+    const savedSessions = Cookies.get('baveu-chat-sessions');
+    
+    if (savedSessions) {
       try {
-        const parsedMessages = JSON.parse(savedMessages);
-        // S'assurer que createdAt est un objet Date
-        const formattedMessages = parsedMessages.map((msg: any) => ({
-          ...msg,
-          createdAt: new Date(msg.createdAt)
+        const parsedSessions = JSON.parse(savedSessions);
+        // S'assurer que les dates sont des objets Date
+        const formattedSessions = parsedSessions.map((session: any) => ({
+          ...session,
+          createdAt: new Date(session.createdAt),
+          lastUpdated: new Date(session.lastUpdated),
+          messages: session.messages.map((msg: any) => ({
+            ...msg,
+            createdAt: new Date(msg.createdAt)
+          }))
         }));
-        setMessages(formattedMessages);
+        
+        setSessions(formattedSessions);
+        
+        // Définir la session active comme la dernière utilisée
+        if (formattedSessions.length > 0) {
+          const lastActiveId = Cookies.get('baveu-active-session');
+          if (lastActiveId && formattedSessions.some((s: ChatSession) => s.id === lastActiveId)) {
+            setActiveSessionId(lastActiveId);
+          } else {
+            setActiveSessionId(formattedSessions[0].id);
+          }
+        }
       } catch (error) {
-        console.error('Erreur lors de l\'analyse des messages sauvegardés:', error);
-        // En cas d'erreur, effacer le localStorage
-        localStorage.removeItem('legalbeat-chat');
+        console.error('Erreur lors de l\'analyse des sessions sauvegardées:', error);
+        // En cas d'erreur, effacer les cookies
+        Cookies.remove('baveu-chat-sessions');
+        Cookies.remove('baveu-active-session');
       }
+    } else {
+      // Créer une session par défaut si aucune session n'existe
+      createNewSession();
     }
   }, []);
 
-  // Sauvegarder les messages dans le localStorage à chaque modification
+  // Sauvegarder les sessions dans les cookies à chaque modification
   useEffect(() => {
-    if (messages.length > 0) {
-      localStorage.setItem('legalbeat-chat', JSON.stringify(messages));
+    if (sessions.length > 0) {
+      // Limiter la taille des cookies (max ~4KB)
+      const sessionsToSave = sessions.map(session => ({
+        ...session,
+        // Ne garder que les 50 derniers messages par session pour éviter de dépasser la limite
+        messages: session.messages.slice(-50)
+      }));
+      
+      Cookies.set('baveu-chat-sessions', JSON.stringify(sessionsToSave), { expires: 30 }); // Expire dans 30 jours
+      
+      if (activeSessionId) {
+        Cookies.set('baveu-active-session', activeSessionId, { expires: 30 });
+      }
     }
-  }, [messages]);
+  }, [sessions, activeSessionId]);
 
-  // Envoyer un message et obtenir une réponse
+  // Créer une nouvelle session de chat
+  const createNewSession = useCallback((customName?: string) => {
+    const now = new Date();
+    const newSession: ChatSession = {
+      id: generateSessionId(),
+      name: customName || formatDefaultSessionName(now),
+      messages: [],
+      createdAt: now,
+      lastUpdated: now
+    };
+    
+    setSessions(prev => [newSession, ...prev]);
+    setActiveSessionId(newSession.id);
+    return newSession.id;
+  }, []);
+
+  // Renommer une session
+  const renameSession = useCallback((sessionId: string, newName: string) => {
+    setSessions(prev => 
+      prev.map(session => 
+        session.id === sessionId 
+          ? { ...session, name: newName, lastUpdated: new Date() } 
+          : session
+      )
+    );
+  }, []);
+
+  // Supprimer une session
+  const deleteSession = useCallback((sessionId: string) => {
+    setSessions(prev => {
+      const filteredSessions = prev.filter(session => session.id !== sessionId);
+      
+      // Si on supprime la session active, basculer vers une autre
+      if (sessionId === activeSessionId && filteredSessions.length > 0) {
+        setActiveSessionId(filteredSessions[0].id);
+      } else if (filteredSessions.length === 0) {
+        // Créer une nouvelle session si toutes sont supprimées
+        setTimeout(() => createNewSession(), 0);
+        setActiveSessionId(null);
+      }
+      
+      return filteredSessions;
+    });
+  }, [activeSessionId, createNewSession]);
+
+  // Changer de session active
+  const switchSession = useCallback((sessionId: string) => {
+    if (sessions.some(session => session.id === sessionId)) {
+      setActiveSessionId(sessionId);
+    }
+  }, [sessions]);
+
+  // Envoyer un message dans la session active
   const sendMessage = useCallback(async (content: string) => {
     if (!content.trim()) return;
+    
+    // Vérifier si une session existe, sinon en créer une
+    if (!activeSessionId) {
+      const newSessionId = createNewSession();
+      setActiveSessionId(newSessionId);
+    }
 
     // Créer le message utilisateur
     const userMessage: Message = {
@@ -46,17 +169,36 @@ export const useChat = () => {
       createdAt: new Date()
     };
 
-    // Ajouter le message utilisateur à l'état
-    setMessages(prev => [...prev, userMessage]);
+    // Ajouter le message utilisateur à la session active
+    setSessions(prev => prev.map(session => 
+      session.id === activeSessionId 
+        ? { 
+            ...session, 
+            messages: [...session.messages, userMessage],
+            lastUpdated: new Date()
+          } 
+        : session
+    ));
+    
     setIsLoading(true);
 
     try {
       // Envoyer à l'API
-      const allMessages = [...messages, userMessage];
+      const sessionMessages = sessions.find(s => s.id === activeSessionId)?.messages || [];
+      const allMessages = [...sessionMessages, userMessage];
+      
       await sendMessageToAIML(
         allMessages,
         (newMessage) => {
-          setMessages(prev => [...prev, newMessage]);
+          setSessions(prev => prev.map(session => 
+            session.id === activeSessionId 
+              ? { 
+                  ...session, 
+                  messages: [...session.messages, newMessage],
+                  lastUpdated: new Date()
+                } 
+              : session
+          ));
           setIsLoading(false);
         },
         (error) => {
@@ -70,19 +212,49 @@ export const useChat = () => {
       setIsLoading(false);
       toast.error('Une erreur s\'est produite. Veuillez réessayer.');
     }
-  }, [messages]);
+  }, [activeSessionId, sessions, createNewSession]);
 
-  // Effacer tous les messages
-  const clearChat = useCallback(() => {
-    setMessages([]);
-    localStorage.removeItem('legalbeat-chat');
-    toast.success('Historique du chat effacé');
-  }, []);
+  // Effacer tous les messages d'une session
+  const clearSession = useCallback((sessionId: string = activeSessionId!) => {
+    if (!sessionId) return;
+    
+    setSessions(prev => prev.map(session => 
+      session.id === sessionId 
+        ? { 
+            ...session, 
+            messages: [],
+            lastUpdated: new Date()
+          } 
+        : session
+    ));
+    
+    toast.success('Messages de la session effacés');
+  }, [activeSessionId]);
+
+  // Effacer toutes les sessions
+  const clearAllSessions = useCallback(() => {
+    setSessions([]);
+    setActiveSessionId(null);
+    Cookies.remove('baveu-chat-sessions');
+    Cookies.remove('baveu-active-session');
+    
+    // Créer une nouvelle session par défaut
+    setTimeout(() => createNewSession(), 0);
+    
+    toast.success('Toutes les sessions ont été supprimées');
+  }, [createNewSession]);
 
   return {
     messages,
+    sessions,
+    activeSessionId,
     isLoading,
     sendMessage,
-    clearChat
+    createNewSession,
+    renameSession,
+    deleteSession,
+    switchSession,
+    clearSession,
+    clearAllSessions
   };
 };
