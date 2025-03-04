@@ -93,6 +93,10 @@
   @apply glass rounded-2xl transition-all duration-300 hover:shadow-md;
 }
 
+.dark .glass-card {
+  @apply bg-slate-800/70 backdrop-blur-md border border-slate-700/70;
+}
+
 /* Enhanced animations */
 @keyframes shimmer {
   0%, 100% { background-position: -200% 0; }
@@ -229,4 +233,13 @@ html {
 
 .dark .emoji {
   filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+}
+
+/* Dark mode card improvements */
+.dark .card-enhanced {
+  @apply bg-slate-800 border-slate-700;
+}
+
+.dark .glass-card {
+  @apply shadow-lg;
 }

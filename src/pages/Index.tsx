@@ -18,7 +18,7 @@ const Index = () => {
         <section className="container py-16 md:py-24">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16 items-center">
             <div className="animate-slide-up">
-              <div className="inline-block mb-4 px-4 py-1.5 rounded-full bg-blue-100 text-blue-600 text-sm font-medium">
+              <div className="inline-block mb-4 px-4 py-1.5 rounded-full bg-blue-100 text-blue-600 text-sm font-medium dark:bg-blue-900/40 dark:text-blue-300">
                 Pour les Artistes Indépendants ✨
               </div>
               <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
@@ -30,13 +30,13 @@ const Index = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <button 
                   onClick={() => navigate('/assistant')}
-                  className="px-6 py-3 font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-500 transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
+                  className="px-6 py-3 font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-500 transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 dark:bg-blue-700 dark:hover:bg-blue-600"
                 >
                   Essayer l'Assistant IA 🤖
                 </button>
                 <button 
                   onClick={() => navigate('/knowledge-base')}
-                  className="px-6 py-3 font-medium rounded-lg border border-blue-200 hover:bg-blue-50 transition-colors"
+                  className="px-6 py-3 font-medium rounded-lg border border-blue-200 hover:bg-blue-50 transition-colors dark:border-blue-700 dark:hover:bg-blue-900/30"
                 >
                   Parcourir la Base de Connaissances 📚
                 </button>
@@ -44,11 +44,11 @@ const Index = () => {
             </div>
 
             <div className="relative animate-fade-in lg:pl-10">
-              <div className="aspect-video rounded-2xl overflow-hidden bg-gradient-to-br from-blue-300/30 to-blue-100/5 flex items-center justify-center shadow-lg transform hover:rotate-1 transition-transform duration-300">
+              <div className="aspect-video rounded-2xl overflow-hidden bg-gradient-to-br from-blue-300/30 to-blue-100/5 dark:from-blue-900/20 dark:to-blue-800/5 flex items-center justify-center shadow-lg transform hover:rotate-1 transition-transform duration-300">
                 <MessageSquare className="w-16 h-16 text-blue-500 opacity-80 animate-pulse-slow" />
               </div>
-              <div className="absolute -bottom-6 -left-6 w-48 h-48 bg-blue-200/20 rounded-full blur-3xl -z-10" />
-              <div className="absolute -top-6 -right-6 w-48 h-48 bg-blue-300/20 rounded-full blur-3xl -z-10" />
+              <div className="absolute -bottom-6 -left-6 w-48 h-48 bg-blue-200/20 dark:bg-blue-800/10 rounded-full blur-3xl -z-10" />
+              <div className="absolute -top-6 -right-6 w-48 h-48 bg-blue-300/20 dark:bg-blue-700/10 rounded-full blur-3xl -z-10" />
               <div className="absolute top-1/2 right-8 transform -translate-y-1/2">
                 <span className="text-3xl animate-float">🎵</span>
               </div>
@@ -61,10 +61,6 @@ const Index = () => {
 
         {/* Features Section */}
         <section className="container py-16 md:py-24 relative">
-          <div className="absolute top-0 right-0 opacity-30">
-            <span className="text-5xl">🔍</span>
-          </div>
-
           <div className="text-center mb-12 animate-slide-down">
             <h2 className="font-display text-3xl md:text-4xl font-semibold mb-4">
               Votre Compagnon Juridique en Musique 🎻
@@ -75,7 +71,7 @@ const Index = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <GlassCard className="md:translate-y-8 bg-gradient-to-br from-white to-blue-50" emoji="💬">
+            <GlassCard className="md:translate-y-8 bg-gradient-to-br from-white to-blue-50 dark:from-slate-800 dark:to-blue-900/10" emoji="💬">
               <MessageSquare className="mb-4 h-8 w-8 text-blue-500" />
               <h3 className="font-display text-xl font-medium mb-2">Assistant Juridique IA</h3>
               <p className="text-muted-foreground mb-4">
@@ -83,13 +79,13 @@ const Index = () => {
               </p>
               <button 
                 onClick={() => navigate('/assistant')}
-                className="flex items-center text-blue-600 hover:underline mt-auto group"
+                className="flex items-center text-blue-600 hover:underline mt-auto group dark:text-blue-400"
               >
                 Essayez maintenant <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </GlassCard>
 
-            <GlassCard className="bg-gradient-to-br from-white to-blue-50/80" emoji="📖">
+            <GlassCard className="bg-gradient-to-br from-white to-blue-50/80 dark:from-slate-800 dark:to-blue-900/5" emoji="📖">
               <BookOpen className="mb-4 h-8 w-8 text-blue-500" />
               <h3 className="font-display text-xl font-medium mb-2">Bibliothèque de Connaissances</h3>
               <p className="text-muted-foreground mb-4">
@@ -97,13 +93,13 @@ const Index = () => {
               </p>
               <button 
                 onClick={() => navigate('/knowledge-base')}
-                className="flex items-center text-blue-600 hover:underline mt-auto group"
+                className="flex items-center text-blue-600 hover:underline mt-auto group dark:text-blue-400"
               >
                 Explorer <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </GlassCard>
 
-            <GlassCard className="md:translate-y-8 bg-gradient-to-br from-white to-blue-50/60" emoji="💡">
+            <GlassCard className="md:translate-y-8 bg-gradient-to-br from-white to-blue-50/60 dark:from-slate-800 dark:to-blue-900/5" emoji="💡">
               <Lightbulb className="mb-4 h-8 w-8 text-blue-500" />
               <h3 className="font-display text-xl font-medium mb-2">Conseils de Négociation</h3>
               <p className="text-muted-foreground mb-4">
@@ -111,7 +107,7 @@ const Index = () => {
               </p>
               <button 
                 onClick={() => navigate('/assistant')}
-                className="flex items-center text-blue-600 hover:underline mt-auto group"
+                className="flex items-center text-blue-600 hover:underline mt-auto group dark:text-blue-400"
               >
                 Obtenir des conseils <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </button>
@@ -121,11 +117,7 @@ const Index = () => {
 
         {/* Trust Section */}
         <section className="container py-16 md:py-24 relative">
-          <div className="absolute bottom-10 left-10 animate-float" style={{ animationDelay: '0.5s' }}>
-            <span className="text-4xl">🛡️</span>
-          </div>
-
-          <div className="bg-gradient-to-r from-blue-100 to-blue-50 rounded-2xl p-8 md:p-12 shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <div className="bg-gradient-to-r from-blue-100 to-blue-50 dark:from-blue-900/20 dark:to-blue-800/10 rounded-2xl p-8 md:p-12 shadow-lg hover:shadow-xl transition-shadow duration-300">
             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
               <div>
                 <h2 className="font-display text-2xl md:text-3xl font-semibold mb-4 flex items-center">
@@ -143,7 +135,7 @@ const Index = () => {
               </div>
               <button 
                 onClick={() => navigate('/assistant')}
-                className="px-6 py-3 font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-500 transition-colors whitespace-nowrap shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
+                className="px-6 py-3 font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-500 transition-colors whitespace-nowrap shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 dark:bg-blue-700 dark:hover:bg-blue-600"
               >
                 Commencer Maintenant 🚀
               </button>
@@ -164,7 +156,7 @@ const Index = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <GlassCard className="bg-gradient-to-br from-white to-blue-50/40" emoji="🎸">
+            <GlassCard className="bg-gradient-to-br from-white to-blue-50/40 dark:from-slate-800 dark:to-blue-900/10" emoji="🎸">
               <div className="mb-4 flex justify-between">
                 <div className="flex">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -180,7 +172,7 @@ const Index = () => {
               <div className="text-sm text-muted-foreground">Auteure-compositrice</div>
             </GlassCard>
 
-            <GlassCard className="bg-gradient-to-br from-white to-blue-50/40" emoji="🎤">
+            <GlassCard className="bg-gradient-to-br from-white to-blue-50/40 dark:from-slate-800 dark:to-blue-900/10" emoji="🎤">
               <div className="mb-4 flex justify-between">
                 <div className="flex">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -196,7 +188,7 @@ const Index = () => {
               <div className="text-sm text-muted-foreground">Producteur</div>
             </GlassCard>
 
-            <GlassCard className="bg-gradient-to-br from-white to-blue-50/40" emoji="🥁">
+            <GlassCard className="bg-gradient-to-br from-white to-blue-50/40 dark:from-slate-800 dark:to-blue-900/10" emoji="🥁">
               <div className="mb-4 flex justify-between">
                 <div className="flex">
                   {[1, 2, 3, 4, 5].map((star) => (

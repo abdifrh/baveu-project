@@ -26,16 +26,16 @@ const GlassCard = ({
   // Define base classes based on variant
   const variantClasses = {
     default: 'glass-card',
-    blue: 'glass-card bg-blue-50/80 border-blue-100 dark:bg-blue-900/20 dark:border-blue-800/30',
-    gradient: 'glass-card bg-gradient-to-br from-white to-blue-50 dark:from-transparent dark:to-blue-900/10'
+    blue: 'glass-card bg-blue-50/80 border-blue-100 dark:bg-blue-900/30 dark:border-blue-800/40',
+    gradient: 'glass-card bg-gradient-to-br from-white to-blue-50 dark:from-slate-800/80 dark:to-blue-900/20'
   };
 
   // Define hover effects
   const hoverClasses = {
     none: '',
     lift: hover ? 'hover:-translate-y-1 transition-transform duration-300' : '',
-    glow: hover ? 'hover:shadow-lg hover:border-blue-200/60 dark:hover:border-blue-700/30 transition-all duration-300' : '',
-    both: hover ? 'hover:shadow-lg hover:-translate-y-1 hover:border-blue-200/60 dark:hover:border-blue-700/30 transition-all duration-300' : ''
+    glow: hover ? 'hover:shadow-lg hover:border-blue-200/60 dark:hover:border-blue-700/40 transition-all duration-300' : '',
+    both: hover ? 'hover:shadow-lg hover:-translate-y-1 hover:border-blue-200/60 dark:hover:border-blue-700/40 transition-all duration-300' : ''
   };
 
   return (
@@ -50,7 +50,7 @@ const GlassCard = ({
     >
       {emoji && (
         <div className="absolute -top-3 -right-2 z-10">
-          <div className="emoji transform rotate-12 bg-white dark:bg-slate-800 rounded-full w-10 h-10 flex items-center justify-center shadow-md border border-blue-100/50 dark:border-blue-800/30 text-xl animate-pop">
+          <div className="emoji transform rotate-12 bg-white dark:bg-slate-800 rounded-full w-10 h-10 flex items-center justify-center shadow-md border border-blue-100/50 dark:border-blue-800/40 text-xl animate-pop">
             {emoji}
           </div>
         </div>
