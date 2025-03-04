@@ -91,6 +91,15 @@
   animation: shine 3s infinite;
 }
 
+.dark .shine::after {
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
 /* Bounce animation for attention */
 @keyframes bounce {
   0%, 20%, 50%, 80%, 100% {
@@ -143,6 +152,14 @@
   box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
 }
 
+.dark .blue-glow {
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.25);
+}
+
+.dark .blue-glow:hover {
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+}
+
 /* Enhanced card effects */
 .card-enhanced {
   transition: all 0.3s ease;
@@ -153,6 +170,15 @@
   transform: translateY(-5px);
   box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1);
   border-color: rgba(59, 130, 246, 0.3);
+}
+
+.dark .card-enhanced {
+  border: 1px solid rgba(59, 130, 246, 0.15);
+}
+
+.dark .card-enhanced:hover {
+  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.4);
 }
 
 /* Glass card enhancements */
@@ -168,4 +194,16 @@
   background: rgba(255, 255, 255, 0.8);
   box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1);
   border-color: rgba(59, 130, 246, 0.25);
+}
+
+.dark .glass-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.dark .glass-card:hover {
+  background: rgba(15, 23, 42, 0.7);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+  border-color: rgba(59, 130, 246, 0.2);
 }

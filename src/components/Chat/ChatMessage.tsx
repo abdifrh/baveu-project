@@ -32,7 +32,7 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
           'flex max-w-[80%] md:max-w-[70%] rounded-2xl px-4 py-3 shadow-sm transition-all duration-300 hover:shadow-md',
           isUser 
             ? 'bg-primary text-primary-foreground ml-4 hover:-translate-y-0.5' 
-            : 'glass border ml-0 mr-4 hover:-translate-y-0.5'
+            : 'glass border ml-0 mr-4 hover:-translate-y-0.5 dark:bg-slate-800/60 dark:border-slate-700/50'
         )}
       >
         <div className="flex-shrink-0 mr-3">
@@ -41,7 +41,7 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
               <User className="h-4 w-4" />
             </div>
           ) : (
-            <div className="p-1.5 bg-primary/10 rounded-full">
+            <div className="p-1.5 bg-primary/10 rounded-full dark:bg-blue-500/20">
               <Sparkles className="h-4 w-4 text-primary" />
             </div>
           )}
@@ -67,7 +67,7 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
           </div>
           
           {isUser ? (
-            <div className="prose prose-sm max-w-none">
+            <div className="prose prose-sm max-w-none dark:prose-invert">
               {message.content.split('\n').map((line, i) => (
                 <React.Fragment key={i}>
                   {line}
@@ -76,7 +76,7 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
               ))}
             </div>
           ) : (
-            <div className="prose prose-sm max-w-none prose-headings:mt-2 prose-headings:mb-1 prose-p:my-1 prose-pre:my-2 prose-pre:bg-muted/50 prose-pre:p-2 prose-pre:rounded-md break-words">
+            <div className="prose prose-sm max-w-none prose-headings:mt-2 prose-headings:mb-1 prose-p:my-1 prose-pre:my-2 prose-pre:bg-muted/50 prose-pre:p-2 prose-pre:rounded-md break-words dark:prose-invert">
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
                 {message.content}
               </ReactMarkdown>

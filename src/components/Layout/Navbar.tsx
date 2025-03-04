@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import ThemeToggle from '@/components/UI/ThemeToggle';
 
 const NavLinks = [
   { name: 'Accueil', path: '/' },
@@ -35,7 +36,7 @@ const Navbar = () => {
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
         isScrolled 
-          ? 'py-3 bg-background/80 backdrop-blur-lg border-b' 
+          ? 'py-3 bg-background/80 dark:bg-background/90 backdrop-blur-lg border-b' 
           : 'py-5 bg-transparent'
       )}
     >
@@ -53,41 +54,46 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8">
-          {NavLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={cn(
-                'text-sm font-medium transition-colors hover:text-primary',
-                location.pathname === link.path
-                  ? 'text-primary'
-                  : 'text-foreground/80'
-              )}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </nav>
+        <div className="hidden md:flex items-center space-x-8">
+          <nav className="flex space-x-8">
+            {NavLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={cn(
+                  'text-sm font-medium transition-colors hover:text-primary',
+                  location.pathname === link.path
+                    ? 'text-primary'
+                    : 'text-foreground/80'
+                )}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </nav>
+          <ThemeToggle />
+        </div>
 
         {/* Mobile Menu Button */}
-        <button
-          className="md:hidden"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
-        >
-          {isMenuOpen ? (
-            <X className="h-6 w-6" />
-          ) : (
-            <Menu className="h-6 w-6" />
-          )}
-        </button>
+        <div className="md:hidden flex items-center space-x-4">
+          <ThemeToggle />
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+          >
+            {isMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Navigation */}
       <div
         className={cn(
-          'fixed inset-0 z-40 flex flex-col bg-background/98 backdrop-blur-sm p-6 pt-24 transition-all duration-300 ease-in-out md:hidden',
+          'fixed inset-0 z-40 flex flex-col bg-background/98 dark:bg-background/95 backdrop-blur-sm p-6 pt-24 transition-all duration-300 ease-in-out md:hidden',
           isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         )}
       >

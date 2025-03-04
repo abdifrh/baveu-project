@@ -82,7 +82,7 @@
 
 /* Glass morphism effects */
 .glass {
-  @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-sm;
+  @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-sm dark:bg-black/40 dark:border-white/10;
 }
 
 .glass-dark {
@@ -211,9 +211,22 @@ html {
 
 .button-hover::before {
   content: '';
-  @apply absolute top-0 left-0 w-full h-full bg-white/20 transform -translate-x-full skew-x-12 transition-transform duration-700;
+  @apply absolute top-0 left-0 w-full h-full bg-white/20 transform -translate-x-full skew-x-12 transition-transform duration-700 dark:bg-white/10;
 }
 
 .button-hover:hover::before {
   @apply transform translate-x-full;
+}
+
+/* Dark mode specific styles */
+.dark .shimmer {
+  background: linear-gradient(90deg, 
+    rgba(0,0,0,0) 0%, 
+    rgba(255,255,255,0.1) 50%, 
+    rgba(0,0,0,0) 100%
+  );
+}
+
+.dark .emoji {
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
 }
