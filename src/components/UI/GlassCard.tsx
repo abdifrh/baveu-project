@@ -9,6 +9,8 @@ interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
   hover?: boolean;
   emoji?: string;
   showSparkle?: boolean;
+  variant?: 'default' | 'blue' | 'gradient';
+  hoverEffect?: 'lift' | 'glow' | 'both' | 'none';
 }
 
 const GlassCard = ({ 
@@ -17,26 +19,46 @@ const GlassCard = ({
   hover = true, 
   emoji, 
   showSparkle = false,
+  variant = 'default',
+  hoverEffect = 'both',
   ...props 
 }: GlassCardProps) => {
+  // Définir les classes de base en fonction de la variante
+  const variantClasses = {
+    default: 'glass-card',
+    blue: 'glass-card bg-blue-50/80 border-blue-100',
+    gradient: 'glass-card bg-gradient-to-br from-white to-blue-50'
+  };
+
+  // Définir les effets au survol
+  const hoverClasses = {
+    none: '',
+    lift: hover ? 'hover:-translate-y-1 transition-transform duration-300' : '',
+    glow: hover ? 'hover:shadow-lg hover:border-blue-200/60 transition-all duration-300' : '',
+    both: hover ? 'hover:shadow-lg hover:-translate-y-1 hover:border-blue-200/60 transition-all duration-300' : ''
+  };
+
   return (
     <div
       className={cn(
-        'glass-card p-6 animate-fade-in relative',
-        hover ? 'hover:shadow-lg hover:-translate-y-1 transition-transform duration-300' : '',
+        'p-6 animate-fade-in relative rounded-xl',
+        variantClasses[variant],
+        hoverClasses[hoverEffect],
         className
       )}
       {...props}
     >
       {emoji && (
-        <span className="absolute -top-3 -right-2 text-xl emoji transform rotate-12 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-sm">
-          {emoji}
-        </span>
+        <div className="absolute -top-3 -right-2 z-10">
+          <div className="emoji transform rotate-12 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md border border-blue-100/50 text-xl animate-pop">
+            {emoji}
+          </div>
+        </div>
       )}
       
       {showSparkle && (
-        <div className="absolute -top-2 -left-2">
-          <Sparkles className="h-5 w-5 text-primary animate-pulse-slow" />
+        <div className="absolute -top-2 -left-2 z-10">
+          <Sparkles className="h-6 w-6 text-blue-500 animate-pulse-slow" />
         </div>
       )}
       

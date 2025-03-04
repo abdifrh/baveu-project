@@ -5,8 +5,6 @@ import Navbar from '@/components/Layout/Navbar';
 import Footer from '@/components/Layout/Footer';
 import PageHeader from '@/components/UI/PageHeader';
 import GlassCard from '@/components/UI/GlassCard';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 
 // Catégories de la base de connaissances avec émojis
 const categories = [
@@ -448,13 +446,23 @@ const KnowledgeBase = () => {
     return category?.emoji || '📚';
   };
 
+  // Formatter le contenu pour afficher des retours à la ligne corrects
+  const formatContent = (content: string) => {
+    return content.split('\n').map((line, index) => (
+      <React.Fragment key={index}>
+        {line}
+        <br />
+      </React.Fragment>
+    ));
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
 
       <main className="flex-1 container py-16 px-4 md:py-24 md:px-8">
         <PageHeader
-          title={<span className="flex items-center">Base de Connaissances <span className="emoji ml-2">📚</span></span>}
+          title={<span className="flex items-center">Base de Connaissances <span className="emoji ml-2 animate-bounce">📚</span></span>}
           description="Explorez notre bibliothèque de ressources juridiques musicales, d'explications contractuelles et de terminologie de l'industrie."
         />
 
@@ -463,27 +471,27 @@ const KnowledgeBase = () => {
           <div className="md:col-span-1">
             <GlassCard className="mb-6" showSparkle>
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary" />
                 <input
                   type="text"
                   placeholder="Rechercher dans la base de connaissances..."
-                  className="w-full pl-10 pr-4 py-2 bg-transparent border-b focus:outline-none focus:border-primary transition-colors"
+                  className="w-full pl-10 pr-4 py-2 bg-transparent border-b focus:outline-none focus:border-primary focus:border-b-2 transition-colors"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
             </GlassCard>
 
-            <GlassCard emoji="🔍">
+            <GlassCard emoji="🔍" className="bg-blue-50/50">
               <h3 className="font-display text-lg font-medium flex items-center mb-4">
-                <BookOpen className="mr-2 h-5 w-5" />
+                <BookOpen className="mr-2 h-5 w-5 text-blue-500" />
                 Catégories
               </h3>
               
               <div className="space-y-2">
                 <button
                   className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                    selectedCategory === null ? 'bg-primary/10 text-primary' : 'hover:bg-secondary'
+                    selectedCategory === null ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-50'
                   }`}
                   onClick={() => setSelectedCategory(null)}
                 >
@@ -497,12 +505,12 @@ const KnowledgeBase = () => {
                   <button
                     key={category.id}
                     className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                      selectedCategory === category.id ? 'bg-primary/10 text-primary' : 'hover:bg-secondary'
+                      selectedCategory === category.id ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-50'
                     }`}
                     onClick={() => setSelectedCategory(category.id)}
                   >
                     <div className="flex items-center">
-                      <span className="emoji mr-2">{category.emoji}</span>
+                      <span className="emoji mr-2 animate-pulse-slow">{category.emoji}</span>
                       {category.title}
                     </div>
                   </button>
@@ -515,41 +523,33 @@ const KnowledgeBase = () => {
           <div className="md:col-span-2">
             {selectedItem ? (
               <GlassCard 
-                className="animate-fade-in" 
+                className="animate-fade-in bg-gradient-to-br from-white to-blue-50" 
                 emoji={getEmojiForCategory(selectedItem.category)}
               >
                 <button
-                  className="mb-4 flex items-center text-sm text-primary hover:underline animated-link"
+                  className="mb-4 flex items-center text-sm text-blue-600 hover:underline animated-link"
                   onClick={() => setSelectedItem(null)}
                 >
                   <ArrowRight className="mr-1 h-4 w-4 rotate-180" />
                   Retour à la liste
                 </button>
 
-                <h2 className="font-display text-2xl font-semibold mb-2 text-gradient">{selectedItem.title}</h2>
+                <h2 className="font-display text-2xl font-semibold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400">{selectedItem.title}</h2>
                 <p className="text-muted-foreground mb-6">{selectedItem.summary}</p>
                 
-                <div className="prose prose-slate max-w-none font-sans text-foreground
-                  prose-headings:font-display 
-                  prose-headings:font-medium 
-                  prose-headings:mt-6 
-                  prose-headings:mb-3 
-                  prose-p:my-3 
-                  prose-p:leading-relaxed
-                  prose-ul:my-3
-                  prose-li:my-1
-                  prose-li:leading-normal
-                  prose-strong:font-semibold
-                  prose-pre:my-4 
-                  prose-pre:p-3 
-                  prose-pre:bg-muted/50 
-                  prose-pre:rounded-md
-                  prose-p:whitespace-pre-wrap
+                <div className="font-sans text-foreground
+                  whitespace-pre-wrap 
                   break-words
+                  space-y-4
+                  leading-relaxed
+                  bg-white/70 
+                  p-4 
+                  rounded-xl
+                  border 
+                  border-blue-200/50
+                  shadow-sm
                 ">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {selectedItem.content}
-                  </ReactMarkdown>
+                  {formatContent(selectedItem.content)}
                 </div>
               </GlassCard>
             ) : (
@@ -559,7 +559,7 @@ const KnowledgeBase = () => {
                     {filteredItems.map((item) => (
                       <GlassCard 
                         key={item.id} 
-                        className="card-hover cursor-pointer animate-fade-in h-full"
+                        className="card-hover cursor-pointer animate-fade-in h-full bg-gradient-to-br from-white to-blue-50/80"
                         emoji={getEmojiForCategory(item.category)}
                       >
                         <button
@@ -568,7 +568,7 @@ const KnowledgeBase = () => {
                         >
                           <h3 className="font-display text-xl font-medium mb-2 emphasis inline-block">{item.title}</h3>
                           <p className="text-muted-foreground mb-4 flex-1 line-clamp-3">{item.summary}</p>
-                          <div className="flex items-center text-primary mt-auto animated-link group">
+                          <div className="flex items-center text-blue-600 mt-auto animated-link group">
                             Lire plus <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                           </div>
                         </button>
@@ -576,8 +576,8 @@ const KnowledgeBase = () => {
                     ))}
                   </div>
                 ) : (
-                  <GlassCard className="text-center py-12" emoji="🔍">
-                    <BookOpen className="h-10 w-10 text-muted-foreground mx-auto mb-4" />
+                  <GlassCard className="text-center py-12 bg-blue-50/30" emoji="🔍">
+                    <BookOpen className="h-10 w-10 text-blue-400 mx-auto mb-4" />
                     <h3 className="font-display text-xl font-medium mb-2">Aucun résultat trouvé</h3>
                     <p className="text-muted-foreground mb-4">
                       Essayez d'ajuster vos termes de recherche ou le filtre de catégorie.
