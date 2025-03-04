@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { 
   Send, 
@@ -9,7 +8,8 @@ import {
   MoreVertical,
   Edit,
   Trash,
-  LayoutList
+  LayoutList,
+  Download
 } from 'lucide-react';
 import { useChat, ChatSession } from '@/hooks/useChat';
 import ChatMessage from './ChatMessage';
@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { generatePDF } from '@/utils/pdfGenerator';
 
 const ChatInterface = () => {
   const { 
@@ -60,16 +61,15 @@ const ChatInterface = () => {
   const [newSessionName, setNewSessionName] = useState('');
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [sessionToDelete, setSessionToDelete] = useState<string | null>(null);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Auto-scroll to bottom when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Focus input on load
   useEffect(() => {
     inputRef.current?.focus();
   }, [activeSessionId]);
@@ -98,14 +98,12 @@ const ChatInterface = () => {
     }
   };
 
-  // Auto-resize textarea as user types
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
     e.target.style.height = 'auto';
     e.target.style.height = `${Math.min(e.target.scrollHeight, 150)}px`;
   };
 
-  // Gestion de la session à renommer
   const handleOpenRenameDialog = (sessionId: string, currentName: string) => {
     setSessionToRename(sessionId);
     setNewSessionName(currentName);
@@ -122,7 +120,6 @@ const ChatInterface = () => {
     }
   };
 
-  // Gestion de la suppression d'une session
   const handleOpenDeleteDialog = (sessionId: string) => {
     setSessionToDelete(sessionId);
     setDeleteDialogOpen(true);
@@ -137,6 +134,28 @@ const ChatInterface = () => {
     }
   };
 
+  const handleDownloadPDF = async () => {
+    if (messages.length === 0) {
+      toast.info('Aucune conversation à télécharger');
+      return;
+    }
+    
+    try {
+      setIsGeneratingPDF(true);
+      const sessionName = activeSessionId 
+        ? sessions.find(s => s.id === activeSessionId)?.name 
+        : "Conversation juridique";
+        
+      await generatePDF(messages, sessionName || "Conversation juridique");
+      toast.success('Conversation téléchargée avec succès');
+    } catch (error) {
+      console.error('Erreur lors de la génération du PDF:', error);
+      toast.error('Impossible de télécharger la conversation');
+    } finally {
+      setIsGeneratingPDF(false);
+    }
+  };
+
   const activeSessionName = activeSessionId 
     ? sessions.find(s => s.id === activeSessionId)?.name 
     : "Nouvelle discussion";
@@ -144,7 +163,6 @@ const ChatInterface = () => {
   return (
     <>
       <GlassCard className="flex flex-col h-[calc(100vh-220px)] min-h-[500px] shadow-md hover:shadow-md">
-        {/* Chat Header */}
         <div className="flex justify-between items-center pb-4 border-b">
           <div className="flex items-center space-x-2">
             <Sheet open={showSessionsSheet} onOpenChange={setShowSessionsSheet}>
@@ -223,6 +241,21 @@ const ChatInterface = () => {
             <Button
               variant="ghost"
               size="icon"
+              onClick={handleDownloadPDF}
+              title="Télécharger la conversation"
+              disabled={messages.length === 0 || isGeneratingPDF}
+              className="mr-1"
+            >
+              {isGeneratingPDF ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Download className="h-4 w-4" />
+              )}
+            </Button>
+            
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={handleClearChat}
               title="Effacer cette conversation"
               disabled={messages.length === 0}
@@ -241,7 +274,6 @@ const ChatInterface = () => {
           </div>
         </div>
 
-        {/* Chat Messages */}
         <div className="flex-1 overflow-y-auto py-4 px-1">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
@@ -275,19 +307,16 @@ const ChatInterface = () => {
             </>
           )}
           
-          {/* Loading indicator */}
           {isLoading && (
             <div className="flex items-center space-x-2 text-muted-foreground animate-pulse">
               <Loader2 className="h-4 w-4 animate-spin" />
-              <span className="text-sm">BAVEU réfléchit...</span>
+              <span className="text-sm">Mr BAVEU réfléchit...</span>
             </div>
           )}
 
-          {/* Auto-scroll anchor */}
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input Form */}
         <form onSubmit={handleSubmit} className="border-t pt-4">
           <div className="flex items-end">
             <textarea
@@ -319,7 +348,6 @@ const ChatInterface = () => {
         </form>
       </GlassCard>
       
-      {/* Rename Dialog */}
       <Dialog open={renameDialogOpen} onOpenChange={setRenameDialogOpen}>
         <DialogContent>
           <DialogHeader>
@@ -348,7 +376,6 @@ const ChatInterface = () => {
         </DialogContent>
       </Dialog>
       
-      {/* Delete Confirmation Dialog */}
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>

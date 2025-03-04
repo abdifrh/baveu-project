@@ -56,7 +56,7 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
                 </>
               ) : (
                 <>
-                  LegalBeat <MessageSquare className="ml-1 h-3 w-3" />
+                  Mr BAVEU <MessageSquare className="ml-1 h-3 w-3" />
                 </>
               )}
             </span>
