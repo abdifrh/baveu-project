@@ -82,7 +82,7 @@
 
 /* Glass morphism effects */
 .glass {
-  @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-sm dark:bg-black/40 dark:border-white/10;
+  @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-sm dark:bg-slate-800/60 dark:border-slate-700/40;
 }
 
 .glass-dark {
@@ -185,13 +185,9 @@ html {
   @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-primary/20;
 }
 
-/* Emoji animations */
+/* Emoji styles */
 .emoji {
-  @apply inline-block transition-transform duration-300;
-}
-
-.emoji:hover {
-  @apply transform scale-125;
+  @apply inline-block;
 }
 
 /* Link animations */
@@ -241,5 +237,14 @@ html {
 }
 
 .dark .glass-card {
-  @apply shadow-lg;
+  @apply shadow-lg bg-slate-800/80 border-slate-700/60;
+}
+
+/* Knowledge base card styles for dark mode */
+.dark .kb-card {
+  @apply bg-slate-800/90 border-slate-700/80 text-slate-100;
+}
+
+.dark .kb-card-content {
+  @apply bg-slate-900/50 border-slate-700/60 text-slate-200;
 }

@@ -52,6 +52,45 @@ const categories = [
   }
 ];
 
+// Avis des clients supplémentaires
+const testimonials = [
+  {
+    id: 't1',
+    name: 'Sophie Martin',
+    role: 'Auteure-compositrice',
+    content: 'Cette base de connaissances m\'a aidée à éviter plusieurs pièges courants dans mon premier contrat d\'édition. Une ressource indispensable !',
+    emoji: '🎵'
+  },
+  {
+    id: 't2',
+    name: 'Lucas Dupont',
+    role: 'Producteur indépendant',
+    content: 'Les explications sur les redevances de streaming ont transformé ma façon d\'aborder les plateformes numériques. Je comprends enfin comment maximiser mes revenus.',
+    emoji: '🎧'
+  },
+  {
+    id: 't3',
+    name: 'Emma Dubois',
+    role: 'Artiste émergente',
+    content: 'Grâce à ces ressources, j\'ai pu négocier mon contrat de management avec confiance. Les conseils pratiques font toute la différence.',
+    emoji: '🌟'
+  },
+  {
+    id: 't4',
+    name: 'Thomas Leclerc',
+    role: 'Manager d\'artistes',
+    content: 'Une référence incontournable que je consulte régulièrement. Les informations sont claires, précises et toujours à jour avec les évolutions du secteur.',
+    emoji: '📊'
+  },
+  {
+    id: 't5',
+    name: 'Julie Moreau',
+    role: 'Conseillère juridique',
+    content: 'En tant que professionnelle du droit, je recommande cette ressource à tous mes clients de l\'industrie musicale. Elle rend des concepts complexes accessibles.',
+    emoji: '⚖️'
+  }
+];
+
 // Exemples d'éléments de la base de connaissances
 const knowledgeItems = [
   {
@@ -431,6 +470,7 @@ const KnowledgeBase = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<typeof knowledgeItems[0] | null>(null);
+  const [showTestimonials, setShowTestimonials] = useState(false);
 
   // Filtrer les éléments de connaissance par terme de recherche et catégorie
   const filteredItems = knowledgeItems.filter(item => {
@@ -462,9 +502,41 @@ const KnowledgeBase = () => {
 
       <main className="flex-1 container py-16 px-4 md:py-24 md:px-8">
         <PageHeader
-          title={<span className="flex items-center">Base de Connaissances <span className="emoji ml-2 animate-bounce">📚</span></span>}
+          title={<span className="flex items-center">Base de Connaissances <span className="emoji ml-2">📚</span></span>}
           description="Explorez notre bibliothèque de ressources juridiques musicales, d'explications contractuelles et de terminologie de l'industrie."
         />
+
+        {/* Testimonials Section */}
+        <div className="mb-12">
+          <button 
+            onClick={() => setShowTestimonials(!showTestimonials)}
+            className="mb-4 flex items-center space-x-2 text-blue-600 font-medium"
+          >
+            <span>{showTestimonials ? 'Masquer les avis' : 'Voir les avis de nos utilisateurs'}</span>
+            <ArrowRight className={`h-4 w-4 transition-transform ${showTestimonials ? 'rotate-90' : ''}`} />
+          </button>
+          
+          {showTestimonials && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-fade-in">
+              {testimonials.map(testimonial => (
+                <GlassCard 
+                  key={testimonial.id} 
+                  className="card-hover h-full" 
+                  emoji={testimonial.emoji}
+                  variant="blue"
+                >
+                  <div className="flex flex-col h-full">
+                    <p className="text-muted-foreground italic mb-4">"{testimonial.content}"</p>
+                    <div className="mt-auto">
+                      <p className="font-semibold">{testimonial.name}</p>
+                      <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                    </div>
+                  </div>
+                </GlassCard>
+              ))}
+            </div>
+          )}
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {/* Sidebar */}
@@ -482,16 +554,16 @@ const KnowledgeBase = () => {
               </div>
             </GlassCard>
 
-            <GlassCard emoji="🔍" className="bg-blue-50/50">
+            <GlassCard emoji="🔍" className="bg-blue-50/50 dark:bg-slate-800/80">
               <h3 className="font-display text-lg font-medium flex items-center mb-4">
-                <BookOpen className="mr-2 h-5 w-5 text-blue-500" />
+                <BookOpen className="mr-2 h-5 w-5 text-blue-500 dark:text-blue-400" />
                 Catégories
               </h3>
               
               <div className="space-y-2">
                 <button
                   className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                    selectedCategory === null ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-50'
+                    selectedCategory === null ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-300' : 'hover:bg-blue-50 dark:hover:bg-slate-700/50'
                   }`}
                   onClick={() => setSelectedCategory(null)}
                 >
@@ -505,12 +577,12 @@ const KnowledgeBase = () => {
                   <button
                     key={category.id}
                     className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                      selectedCategory === category.id ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-50'
+                      selectedCategory === category.id ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-300' : 'hover:bg-blue-50 dark:hover:bg-slate-700/50'
                     }`}
                     onClick={() => setSelectedCategory(category.id)}
                   >
                     <div className="flex items-center">
-                      <span className="emoji mr-2 animate-pulse-slow">{category.emoji}</span>
+                      <span className="emoji mr-2">{category.emoji}</span>
                       {category.title}
                     </div>
                   </button>
@@ -523,18 +595,18 @@ const KnowledgeBase = () => {
           <div className="md:col-span-2">
             {selectedItem ? (
               <GlassCard 
-                className="animate-fade-in bg-gradient-to-br from-white to-blue-50" 
+                className="animate-fade-in kb-card bg-gradient-to-br from-white to-blue-50 dark:from-slate-800 dark:to-slate-900" 
                 emoji={getEmojiForCategory(selectedItem.category)}
               >
                 <button
-                  className="mb-4 flex items-center text-sm text-blue-600 hover:underline animated-link"
+                  className="mb-4 flex items-center text-sm text-blue-600 hover:underline animated-link dark:text-blue-400"
                   onClick={() => setSelectedItem(null)}
                 >
                   <ArrowRight className="mr-1 h-4 w-4 rotate-180" />
                   Retour à la liste
                 </button>
 
-                <h2 className="font-display text-2xl font-semibold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400">{selectedItem.title}</h2>
+                <h2 className="font-display text-2xl font-semibold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 dark:from-blue-400 dark:to-blue-300">{selectedItem.title}</h2>
                 <p className="text-muted-foreground mb-6">{selectedItem.summary}</p>
                 
                 <div className="font-sans text-foreground
@@ -543,11 +615,14 @@ const KnowledgeBase = () => {
                   space-y-4
                   leading-relaxed
                   bg-white/70 
+                  dark:bg-slate-900/50
                   p-4 
                   rounded-xl
                   border 
                   border-blue-200/50
+                  dark:border-slate-700/60
                   shadow-sm
+                  kb-card-content
                 ">
                   {formatContent(selectedItem.content)}
                 </div>
@@ -559,7 +634,7 @@ const KnowledgeBase = () => {
                     {filteredItems.map((item) => (
                       <GlassCard 
                         key={item.id} 
-                        className="card-hover cursor-pointer animate-fade-in h-full bg-gradient-to-br from-white to-blue-50/80"
+                        className="card-hover cursor-pointer animate-fade-in h-full bg-gradient-to-br from-white to-blue-50/80 dark:from-slate-800 dark:to-slate-900/80 kb-card"
                         emoji={getEmojiForCategory(item.category)}
                       >
                         <button
@@ -568,7 +643,7 @@ const KnowledgeBase = () => {
                         >
                           <h3 className="font-display text-xl font-medium mb-2 emphasis inline-block">{item.title}</h3>
                           <p className="text-muted-foreground mb-4 flex-1 line-clamp-3">{item.summary}</p>
-                          <div className="flex items-center text-blue-600 mt-auto animated-link group">
+                          <div className="flex items-center text-blue-600 dark:text-blue-400 mt-auto animated-link group">
                             Lire plus <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                           </div>
                         </button>
@@ -576,8 +651,8 @@ const KnowledgeBase = () => {
                     ))}
                   </div>
                 ) : (
-                  <GlassCard className="text-center py-12 bg-blue-50/30" emoji="🔍">
-                    <BookOpen className="h-10 w-10 text-blue-400 mx-auto mb-4" />
+                  <GlassCard className="text-center py-12 bg-blue-50/30 dark:bg-slate-800/50" emoji="🔍">
+                    <BookOpen className="h-10 w-10 text-blue-400 dark:text-blue-300 mx-auto mb-4" />
                     <h3 className="font-display text-xl font-medium mb-2">Aucun résultat trouvé</h3>
                     <p className="text-muted-foreground mb-4">
                       Essayez d'ajuster vos termes de recherche ou le filtre de catégorie.
