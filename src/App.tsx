@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Assistant from "./pages/Assistant";
 import KnowledgeBase from "./pages/KnowledgeBase";
+import KnowledgeArticleDetail from "./pages/KnowledgeArticleDetail";
 import NotFound from "./pages/NotFound";
 import { useEffect } from "react";
 
@@ -35,6 +36,7 @@ const App = () => {
             <Route path="/" element={<Index />} />
             <Route path="/assistant" element={<Assistant />} />
             <Route path="/knowledge-base" element={<KnowledgeBase />} />
+            <Route path="/kb/:slug" element={<KnowledgeArticleDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
