@@ -4,7 +4,6 @@ import { Check, X, AlertCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from 'sonner';
 import { Switch } from '@/components/ui/switch';
 import {
@@ -12,6 +11,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
 import {
@@ -20,8 +20,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-
-export type ApiProvider = 'aiml' | 'openai';
 
 interface ApiKeySettingsProps {
   open: boolean;
@@ -33,19 +31,16 @@ const ApiKeySettings: React.FC<ApiKeySettingsProps> = ({
   onOpenChange,
 }) => {
   const [apiKey, setApiKey] = useState<string>('');
-  const [selectedProvider, setSelectedProvider] = useState<ApiProvider>('aiml');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [useOfflineMode, setUseOfflineMode] = useState<boolean>(true);
 
-  // Lors de l'ouverture du dialog, récupérer les paramètres sauvegardés
+  // Récupérer les paramètres sauvegardés lors de l'ouverture du dialog
   useEffect(() => {
     if (open) {
       const savedApiKey = localStorage.getItem('baveu-api-key') || '';
-      const savedProvider = localStorage.getItem('baveu-api-provider') as ApiProvider || 'aiml';
       const savedOfflineMode = localStorage.getItem('baveu-offline-mode') !== 'false';
       
       setApiKey(savedApiKey);
-      setSelectedProvider(savedProvider);
       setUseOfflineMode(savedOfflineMode);
     }
   }, [open]);
@@ -63,7 +58,6 @@ const ApiKeySettings: React.FC<ApiKeySettingsProps> = ({
       
       // Sauvegarder les paramètres
       localStorage.setItem('baveu-api-key', apiKey);
-      localStorage.setItem('baveu-api-provider', selectedProvider);
       localStorage.setItem('baveu-offline-mode', useOfflineMode.toString());
       
       toast.success('Paramètres sauvegardés avec succès');
@@ -85,11 +79,11 @@ const ApiKeySettings: React.FC<ApiKeySettingsProps> = ({
     setIsLoading(true);
     
     try {
-      // Simuler un test de connexion à l'API
+      // Simuler un test de connexion à l'API OpenAI
       await new Promise(resolve => setTimeout(resolve, 1500));
       
       // En situation réelle, vous feriez une requête à l'API pour vérifier la validité de la clé
-      toast.success('Connexion à l\'API réussie');
+      toast.success('Connexion à l\'API OpenAI réussie');
     } catch (error) {
       console.error('Erreur lors du test de la clé API:', error);
       toast.error('Erreur lors du test de la clé API');
@@ -103,6 +97,9 @@ const ApiKeySettings: React.FC<ApiKeySettingsProps> = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Paramètres de l'API</DialogTitle>
+          <DialogDescription>
+            Configurez les paramètres de l'API pour Mr BAVEU, votre assistant juridique musical.
+          </DialogDescription>
         </DialogHeader>
         
         <div className="flex items-center space-x-2 mt-4">
@@ -121,7 +118,7 @@ const ApiKeySettings: React.FC<ApiKeySettingsProps> = ({
               <TooltipContent>
                 <p className="max-w-xs">
                   Le mode hors ligne utilise des réponses pré-enregistrées. 
-                  Désactivez-le pour utiliser l'API en ligne.
+                  Désactivez-le pour utiliser l'API OpenAI en ligne.
                 </p>
               </TooltipContent>
             </Tooltip>
@@ -129,35 +126,14 @@ const ApiKeySettings: React.FC<ApiKeySettingsProps> = ({
         </div>
         
         <div className={!useOfflineMode ? 'mt-4' : 'mt-4 opacity-50 pointer-events-none'}>
-          <Label htmlFor="api-provider" className="mb-2 block">
-            Fournisseur d'API
-          </Label>
-          <RadioGroup
-            id="api-provider"
-            value={selectedProvider}
-            onValueChange={(value) => setSelectedProvider(value as ApiProvider)}
-            className="flex flex-col space-y-2"
-          >
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="aiml" id="aiml" />
-              <Label htmlFor="aiml">AIML API (par défaut)</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="openai" id="openai" />
-              <Label htmlFor="openai">OpenAI (GPT-4)</Label>
-            </div>
-          </RadioGroup>
-        </div>
-        
-        <div className={!useOfflineMode ? 'mt-4' : 'mt-4 opacity-50 pointer-events-none'}>
           <Label htmlFor="api-key" className="mb-2 block">
-            Clé API {selectedProvider === 'openai' ? 'OpenAI' : 'AIML'}
+            Clé API OpenAI
           </Label>
           <div className="flex space-x-2">
             <Input
               id="api-key"
               type="password"
-              placeholder={`Entrez votre clé API ${selectedProvider === 'openai' ? 'OpenAI' : 'AIML'}`}
+              placeholder="Entrez votre clé API OpenAI"
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
             />
@@ -171,9 +147,7 @@ const ApiKeySettings: React.FC<ApiKeySettingsProps> = ({
             </Button>
           </div>
           <p className="text-xs text-muted-foreground mt-1">
-            {selectedProvider === 'openai' 
-              ? 'Vous pouvez obtenir une clé API sur openai.com' 
-              : 'Utilisez la clé API fournie par AIML'}
+            Vous pouvez obtenir une clé API sur platform.openai.com
           </p>
         </div>
         

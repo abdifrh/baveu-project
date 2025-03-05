@@ -23,13 +23,13 @@ const ApiSettingsButton: React.FC<ApiSettingsButtonProps> = ({ className }) => {
               size="icon"
               onClick={() => setIsDialogOpen(true)}
               className={cn('rounded-full hover:bg-blue-100/50 dark:hover:bg-blue-900/50', className)}
-              aria-label="Paramètres API"
+              aria-label="Paramètres API Mr BAVEU"
             >
               <Settings className="h-5 w-5 text-blue-600 dark:text-blue-400" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Paramètres API</p>
+            <p>Paramètres API Mr BAVEU</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

@@ -6,124 +6,93 @@ export interface Message {
   createdAt: Date;
 }
 
-export type ApiProvider = 'aiml' | 'openai';
-
-// Message système qui établit le contexte juridique musical
-const SYSTEM_MESSAGE = `Vous êtes un assistant juridique spécialisé dans l'industrie musicale, conçu pour aider les artistes indépendants à comprendre les aspects juridiques et contractuels de leur carrière musicale.
+// Message système qui établit le contexte juridique musical français optimisé pour être concis
+const SYSTEM_MESSAGE = `Vous êtes Mr BAVEU, un assistant juridique spécialisé dans l'industrie musicale française. Votre mission est d'aider les jeunes artistes indépendants à comprendre les aspects juridiques et contractuels de leur carrière.
 
 Votre expertise couvre:
-- Les contrats de distribution musicale (physique et numérique)
-- Les contrats d'édition musicale
-- Les contrats de management et d'agent
-- Les droits d'auteur et copyright
-- Les redevances (streaming, mécaniques, synchronisation)
-- Les licences et autorisations
-- La protection de la propriété intellectuelle
+- Contrats de distribution et d'édition musicale
+- Droits d'auteur et droits voisins (SACEM, SDRM)
+- Redevances (streaming, mécaniques, synchronisation)
+- Statuts juridiques pour artistes (auto-entrepreneur, intermittent)
+- Protection de la propriété intellectuelle
 
-Répondez de manière claire, précise et accessible aux artistes sans expérience juridique. Expliquez les termes techniques. Si une question dépasse votre expertise ou nécessite un conseil juridique spécifique, recommandez la consultation d'un avocat spécialisé.
+Répondez de manière concise, précise et accessible. Expliquez brièvement les termes techniques. Si une question dépasse votre expertise, recommandez la consultation d'un avocat spécialisé.
 
-Concentrez-vous sur:
-1. Expliquer clairement les concepts juridiques
-2. Identifier les points d'attention dans les contrats
-3. Fournir des conseils généraux de négociation
-4. Présenter les pratiques standards de l'industrie
+Pour optimiser l'utilisation des tokens:
+1. Soyez direct et concis
+2. Utilisez des listes à puces quand c'est possible
+3. Évitez les répétitions et les phrases superflues
+4. Concentrez-vous sur le droit français de la musique
 
 Rappelez toujours que vos réponses sont des informations générales et non des conseils juridiques personnalisés.`;
 
-// Réponses prédéfinies pour le mode hors ligne
+// Réponses prédéfinies pour le mode hors ligne, optimisées pour être utiles mais concises
 const FALLBACK_RESPONSES: Record<string, string> = {
   "contrat distribution": `
-Dans un contrat de distribution musicale, recherchez attentivement ces éléments clés :
+**Éléments clés des contrats de distribution musicale :**
 
-1. **Durée et territoire** : Vérifiez pour combien de temps vous cédez vos droits et dans quelles régions.
-2. **Exclusivité** : Déterminez si vous pouvez distribuer votre musique via d'autres canaux.
-3. **Pourcentages de royalties** : Assurez-vous que les pourcentages sont clairement définis pour chaque type de plateforme.
-4. **Fréquence des paiements** : Vérifiez quand et comment vous serez payé.
-5. **Clauses de résiliation** : Comprenez comment mettre fin au contrat si nécessaire.
-6. **Droits de propriété** : Confirmez que vous conservez la propriété de vos masters.
-7. **Obligations de marketing** : Vérifiez ce que le distributeur s'engage à faire pour promouvoir votre musique.
-8. **Transparence des rapports** : Assurez-vous d'avoir accès à des rapports détaillés sur vos ventes et streams.
-9. **Avances et recoupement** : Si une avance est proposée, comprenez comment elle sera récupérée.
-10. **Droits d'édition** : Assurez-vous que le contrat de distribution ne touche pas à vos droits d'édition.
+1. **Durée et territoire** : Vérifiez pour combien de temps et dans quelles régions
+2. **Exclusivité** : Pouvez-vous distribuer via d'autres canaux?
+3. **Pourcentages de royalties** : Clairement définis par plateforme
+4. **Fréquence des paiements** : Quand et comment serez-vous payé
+5. **Clauses de résiliation** : Comment mettre fin au contrat
+6. **Propriété des masters** : Confirmez que vous les conservez
+7. **Obligations de marketing** : Engagements du distributeur
+8. **Rapports de ventes** : Fréquence et détails fournis
+9. **Avances et recoupement** : Comment sont-elles récupérées
+10. **Droits d'édition** : Le contrat ne devrait pas y toucher
 
-Je recommande toujours de faire réviser tout contrat par un avocat spécialisé en droit du divertissement avant de signer.`,
+Faites réviser tout contrat par un avocat spécialisé avant signature.`,
 
   "droits d'auteur": `
-Les droits d'auteur en termes simples :
+**Droits d'auteur en France - Essentiel :**
 
-Les droits d'auteur sont les droits légaux qui protègent vos créations musicales dès leur création. Ils fonctionnent comme une forme de propriété intellectuelle.
+• **Création automatique** : Protection dès création sans dépôt obligatoire
+• **Double protection** : Composition (mélodie/paroles) et enregistrement (master)
+• **Durée** : Vie de l'auteur + 70 ans
+• **Gestion** : SACEM pour les droits d'exécution et de reproduction
+• **Revenus** : Diffusion (radio/TV/streaming), ventes, synchronisations, performances
 
-**Éléments clés :**
+**Droits patrimoniaux :**
+• Reproduction, représentation, adaptation
+• Cessibles et transmissibles
 
-1. **Création automatique** : Les droits d'auteur existent dès que votre œuvre est fixée sous une forme tangible (enregistrée, écrite).
+**Droits moraux :**
+• Paternité, respect de l'œuvre
+• Incessibles et imprescriptibles
 
-2. **Deux types principaux en musique** :
-   - **Composition** : La mélodie, les accords et les paroles (appartient au compositeur/parolier)
-   - **Enregistrement** : L'enregistrement sonore spécifique (appartient généralement à l'interprète ou au label)
-
-3. **Droits exclusifs** que vous possédez :
-   - Reproduire votre œuvre
-   - Créer des œuvres dérivées
-   - Distribuer des copies
-   - Exécuter publiquement
-   - Afficher publiquement
-
-4. **Durée** : En France et dans la plupart des pays européens, les droits d'auteur durent toute la vie de l'auteur plus 70 ans.
-
-5. **Revenus** : Vos droits d'auteur génèrent des revenus via :
-   - Redevances de diffusion (radio, TV, streaming)
-   - Redevances mécaniques (ventes physiques et numériques)
-   - Droits de synchronisation (utilisation dans films, publicités)
-   - Performances publiques (concerts, établissements)
-
-6. **Gestion collective** : En France, la SACEM gère collectivement certains droits pour faciliter la perception des redevances.
-
-L'enregistrement officiel n'est pas obligatoire mais recommandé pour renforcer votre protection légale.`,
+Pour protection renforcée: enveloppe Soleau, SACEM, ou dépôt notarié.`,
 
   "redevances mécaniques": `
-Les redevances mécaniques sont un concept essentiel dans l'industrie musicale :
+**Redevances mécaniques - Points clés :**
 
-**Définition simple :**
-Les redevances mécaniques sont les paiements dus aux auteurs-compositeurs et aux éditeurs chaque fois que leur composition est reproduite sur un support physique (CD, vinyle) ou numérique (téléchargements, streaming).
+• **Définition** : Paiements dus aux auteurs/compositeurs pour reproduction de leur œuvre
+• **Perception** : SDRM en France (liée à la SACEM)
+• **Taux** : ~9,009% du prix de gros pour supports physiques
+• **Streaming** : Calcul complexe basé sur un % des revenus du service
+• **Partage** : 50/50 compositeur/éditeur (contrat standard)
 
-**Origine du terme :**
-Le terme "mécanique" date de l'époque où la musique était reproduite mécaniquement sur des pianos mécaniques et phonographes.
+**Différence avec royalties de streaming :**
+• Redevances mécaniques = composition (partition/paroles)
+• Royalties streaming = aussi l'enregistrement (master)
 
-**Fonctionnement :**
-1. Quand votre chanson est vendue en format physique, téléchargée ou écoutée en streaming, vous avez droit à une redevance.
-2. En France, le taux standard est d'environ 9,009% du prix de gros pour les supports physiques.
-3. Pour le streaming, le calcul est plus complexe et basé sur un pourcentage des revenus générés par le service.
-
-**Qui les perçoit :**
-- La SACEM en France collecte ces redevances.
-- Si vous avez un éditeur, il perçoit généralement ces redevances et vous reverse votre part (souvent 50/50 selon le contrat d'édition).
-- En auto-édition, vous recevez l'intégralité via votre société de gestion collective.
-
-**Différence avec les royalties de streaming :**
-- Les redevances mécaniques concernent la composition (partition et paroles).
-- Les royalties de streaming incluent aussi la part pour l'enregistrement sonore (master).
-
-**Points importants :**
-- Ces redevances sont distinctes des droits de diffusion publique.
-- Pour le streaming, chaque écoute génère à la fois des redevances mécaniques et des droits de diffusion.
-- Les taux varient selon les pays et les accords en place.
-
-Ces redevances constituent une source de revenus importante pour les compositeurs, même s'ils ne sont pas les interprètes de leurs œuvres.`,
+Ces redevances sont versées même si vous n'êtes pas l'interprète de vos œuvres.`,
 
   "default": `
-Je vous remercie pour votre question. Bien que je sois spécialisé dans le droit musical, je ne peux pas accéder à l'API externe actuellement en raison d'une limitation technique.
+Je suis Mr BAVEU, votre assistant juridique musical. Je ne peux pas accéder à l'API externe actuellement.
 
-Voici quelques informations générales qui pourraient vous être utiles :
+Les principales questions juridiques pour jeunes artistes en France concernent:
+• Droits d'auteur et SACEM
+• Contrats de distribution/édition
+• Statut professionnel (auto-entrepreneur, intermittent)
+• Redevances et rémunérations
 
-Les aspects juridiques de l'industrie musicale comprennent les droits d'auteur, les contrats d'édition, les accords de distribution, les licences de synchronisation, et la protection de la propriété intellectuelle.
+Pour des conseils juridiques précis, consultez:
+1. Un avocat spécialisé en droit du divertissement
+2. La SACEM pour les questions de droits
+3. Le Centre National de la Musique (CNM)
 
-Pour obtenir des conseils juridiques précis adaptés à votre situation, je vous recommande de :
-
-1. Consulter un avocat spécialisé en droit du divertissement
-2. Contacter une organisation comme la SACEM qui peut offrir des ressources aux artistes
-3. Explorer les ressources éducatives disponibles sur le site de BAVEU
-
-Y a-t-il un aspect particulier du droit musical sur lequel vous souhaiteriez en savoir plus ? Je ferai de mon mieux pour vous orienter avec les informations dont je dispose.`
+Comment puis-je vous orienter avec les informations dont je dispose?`
 };
 
 // Fonction pour déterminer quelle réponse prédéfinie utiliser
@@ -145,44 +114,9 @@ const getFallbackResponse = (question: string): string => {
   return FALLBACK_RESPONSES["default"];
 };
 
-// Fonction pour appeler l'API AIML
-const callAimlApi = async (
-  formattedMessages: any[],
-  onSuccess: (response: any) => void,
-  onError: (error: Error) => void
-) => {
-  try {
-    const apiKey = localStorage.getItem('baveu-api-key') || 'b1422c38a2f449d18d57efe78fb1e0e2';
-    
-    const response = await fetch('https://api.aiml-api.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        messages: formattedMessages,
-        model: 'gpt-4',
-        max_tokens: 1000
-      })
-    });
-
-    if (!response.ok) {
-      throw new Error(`Erreur API: ${response.status}`);
-    }
-
-    const data = await response.json();
-    onSuccess(data);
-    
-  } catch (error) {
-    console.error('Erreur lors de l\'appel à l\'API AIML:', error);
-    onError(error as Error);
-  }
-};
-
-// Fonction pour appeler l'API OpenAI
+// Fonction optimisée pour appeler l'API OpenAI avec une utilisation minimale de tokens
 const callOpenAiApi = async (
-  formattedMessages: any[],
+  messages: any[],
   onSuccess: (response: any) => void,
   onError: (error: Error) => void
 ) => {
@@ -193,6 +127,7 @@ const callOpenAiApi = async (
       throw new Error('Clé API OpenAI manquante. Veuillez configurer votre clé API dans les paramètres.');
     }
     
+    // Optimisation: utiliser gpt-4o pour un meilleur rapport qualité/prix
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -200,14 +135,18 @@ const callOpenAiApi = async (
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        messages: formattedMessages,
+        messages: messages,
         model: 'gpt-4o',
-        max_tokens: 1000
+        // Optimisation: limiter le nombre de tokens pour réduire les coûts
+        max_tokens: 800,
+        // Optimisation: température réduite pour des réponses plus concises et directes
+        temperature: 0.7
       })
     });
 
     if (!response.ok) {
-      throw new Error(`Erreur API OpenAI: ${response.status}`);
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(`Erreur API OpenAI: ${response.status} - ${errorData.error?.message || 'Erreur inconnue'}`);
     }
 
     const data = await response.json();
@@ -251,24 +190,26 @@ export const sendMessageToAIML = async (
       return;
     }
     
-    // Préparer les messages pour l'API
+    // Optimisation: ne pas envoyer tout l'historique des messages à l'API
+    // pour économiser des tokens, garder seulement les derniers messages
+    const recentMessagesCount = 6; // Système + 5 derniers échanges
     const systemMessage = {
       role: 'system',
       content: SYSTEM_MESSAGE
     };
 
+    // Ne garder que les messages récents pour l'API
+    const recentMessages = messages.slice(-recentMessagesCount);
+    
     const formattedMessages = [
       systemMessage,
-      ...messages.map(msg => ({
+      ...recentMessages.map(msg => ({
         role: msg.role,
         content: msg.content
       }))
     ];
 
     try {
-      // Déterminer quel fournisseur d'API utiliser
-      const apiProvider = localStorage.getItem('baveu-api-provider') as ApiProvider || 'aiml';
-      
       const handleApiSuccess = (data: any) => {
         // Créer un nouveau message avec la réponse
         const newMessage: Message = {
@@ -282,15 +223,9 @@ export const sendMessageToAIML = async (
         onMessageReceived(newMessage);
       };
       
-      if (apiProvider === 'openai') {
-        await callOpenAiApi(formattedMessages, handleApiSuccess, (error) => {
-          throw error;
-        });
-      } else {
-        await callAimlApi(formattedMessages, handleApiSuccess, (error) => {
-          throw error;
-        });
-      }
+      await callOpenAiApi(formattedMessages, handleApiSuccess, (error) => {
+        throw error;
+      });
       
     } catch (error) {
       console.error('Erreur lors de l\'appel à l\'API:', error);
