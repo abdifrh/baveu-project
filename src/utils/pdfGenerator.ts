@@ -84,7 +84,8 @@ export const generatePDF = async (messages: Message[], sessionName: string) => {
   });
   
   // Ajouter un pied de page
-  const pageCount = doc.internal.getNumberOfPages();
+  // Fix: Use the length of the document's pages array instead of getNumberOfPages
+  const pageCount = doc.internal.pages.length - 1;
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
     doc.setFontSize(8);
