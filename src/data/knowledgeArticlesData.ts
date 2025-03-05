@@ -6,6 +6,7 @@ export interface KnowledgeArticle {
   category: string;
   readingTime: number;
   slug: string;
+  views?: number;
 }
 
 export const knowledgeArticlesData: KnowledgeArticle[] = [
@@ -15,7 +16,8 @@ export const knowledgeArticlesData: KnowledgeArticle[] = [
     description: 'Un guide complet sur les clauses essentielles des contrats d\'édition musicale, les pièges à éviter et comment négocier des conditions favorables.',
     category: 'Contrats',
     readingTime: 8,
-    slug: 'contrats-edition-musicale'
+    slug: 'contrats-edition-musicale',
+    views: 128
   },
   {
     id: '2',
@@ -23,7 +25,8 @@ export const knowledgeArticlesData: KnowledgeArticle[] = [
     description: 'Explorez comment les droits d\'auteur fonctionnent dans l\'univers du streaming et maximisez vos revenus sur les plateformes numériques.',
     category: 'Droits d\'auteur',
     readingTime: 6,
-    slug: 'droits-auteur-streaming'
+    slug: 'droits-auteur-streaming',
+    views: 215
   },
   {
     id: '3',
@@ -31,7 +34,8 @@ export const knowledgeArticlesData: KnowledgeArticle[] = [
     description: 'Tout sur les licences de synchronisation: comment placer votre musique dans des films, séries et publicités et en tirer un revenu substantiel.',
     category: 'Licences',
     readingTime: 5,
-    slug: 'synchronisation-musicale'
+    slug: 'synchronisation-musicale',
+    views: 94
   },
   {
     id: '4',
@@ -39,7 +43,8 @@ export const knowledgeArticlesData: KnowledgeArticle[] = [
     description: 'Stratégies accessibles pour protéger légalement vos créations musicales, même avec des ressources limitées.',
     category: 'Protection',
     readingTime: 4,
-    slug: 'proteger-musique-sans-budget'
+    slug: 'proteger-musique-sans-budget',
+    views: 187
   },
   {
     id: '5',
@@ -47,7 +52,8 @@ export const knowledgeArticlesData: KnowledgeArticle[] = [
     description: 'Fonctionnement de la SACEM et autres sociétés de gestion, processus d\'adhésion et maximisation des collectes de droits.',
     category: 'Gestion collective',
     readingTime: 7,
-    slug: 'societes-gestion-collective'
+    slug: 'societes-gestion-collective',
+    views: 156
   },
   {
     id: '6',
@@ -55,7 +61,8 @@ export const knowledgeArticlesData: KnowledgeArticle[] = [
     description: 'Les aspects essentiels à négocier dans votre contrat de distribution, physique ou numérique, pour préserver vos intérêts.',
     category: 'Contrats',
     readingTime: 6,
-    slug: 'negocier-contrat-distribution'
+    slug: 'negocier-contrat-distribution',
+    views: 112
   },
   {
     id: '7',
@@ -63,7 +70,8 @@ export const knowledgeArticlesData: KnowledgeArticle[] = [
     description: 'Analyse détaillée du calcul des royalties sur les principales plateformes de streaming et stratégies pour les optimiser.',
     category: 'Revenus',
     readingTime: 8,
-    slug: 'royalties-streaming'
+    slug: 'royalties-streaming',
+    views: 243
   },
   {
     id: '8',
@@ -71,7 +79,8 @@ export const knowledgeArticlesData: KnowledgeArticle[] = [
     description: 'Décryptage des clauses les plus importantes dans les contrats d\'enregistrement et conseils pour leur négociation.',
     category: 'Contrats',
     readingTime: 9,
-    slug: 'contrats-enregistrement-clauses'
+    slug: 'contrats-enregistrement-clauses',
+    views: 134
   },
   {
     id: '9',
@@ -79,7 +88,8 @@ export const knowledgeArticlesData: KnowledgeArticle[] = [
     description: 'Cadre juridique des collaborations entre artistes, partage des droits et rédaction de contrats de collaboration.',
     category: 'Collaboration',
     readingTime: 5,
-    slug: 'collaborations-aspects-juridiques'
+    slug: 'collaborations-aspects-juridiques',
+    views: 97
   },
   {
     id: '10',
@@ -87,7 +97,8 @@ export const knowledgeArticlesData: KnowledgeArticle[] = [
     description: 'Explorer le cadre juridique des NFT dans l\'industrie musicale et comment les artistes peuvent exploiter cette technologie.',
     category: 'Innovation',
     readingTime: 7,
-    slug: 'nft-musique-opportunites'
+    slug: 'nft-musique-opportunites',
+    views: 176
   },
   {
     id: '11',
@@ -95,7 +106,8 @@ export const knowledgeArticlesData: KnowledgeArticle[] = [
     description: 'Guide pratique des différentes licences Creative Commons et comment les utiliser pour protéger et partager votre musique.',
     category: 'Licences',
     readingTime: 4,
-    slug: 'licences-creative-commons'
+    slug: 'licences-creative-commons',
+    views: 115
   },
   {
     id: '12',
@@ -103,6 +115,7 @@ export const knowledgeArticlesData: KnowledgeArticle[] = [
     description: 'Explication des droits voisins, leur différence avec les droits d\'auteur et comment ils s\'appliquent aux interprètes.',
     category: 'Droits d\'auteur',
     readingTime: 6,
-    slug: 'droits-voisins-musiciens'
+    slug: 'droits-voisins-musiciens',
+    views: 122
   }
 ];

@@ -89,12 +89,14 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
                   ol: ({node, ...props}) => <ol className="my-2 pl-6 list-decimal" {...props} />,
                   li: ({node, ...props}) => <li className="mt-1" {...props} />,
                   blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-primary pl-4 my-2 italic" {...props} />,
-                  code: ({node, inline, ...props}) => 
-                    inline ? (
+                  code: ({node, className, ...props}) => {
+                    const match = /language-(\w+)/.exec(className || '');
+                    return !match ? (
                       <code className="px-1.5 py-0.5 bg-muted rounded text-xs" {...props} />
                     ) : (
                       <code className="block bg-muted p-3 rounded-md text-xs overflow-x-auto my-2" {...props} />
-                    ),
+                    );
+                  },
                   a: ({node, ...props}) => <a className="text-primary hover:underline" {...props} />,
                   table: ({node, ...props}) => <div className="overflow-x-auto my-4"><table className="border-collapse w-full text-sm" {...props} /></div>,
                   th: ({node, ...props}) => <th className="border border-muted p-2 bg-muted/50 font-medium" {...props} />,

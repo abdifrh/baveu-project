@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BookOpen, Clock } from 'lucide-react';
+import { BookOpen, Clock, Eye } from 'lucide-react';
 import GlassCard from '@/components/UI/GlassCard';
 import { Button } from '@/components/ui/button';
 
@@ -10,6 +10,7 @@ interface KnowledgeArticleProps {
   category: string;
   readingTime: number;
   slug: string;
+  views?: number;
 }
 
 const KnowledgeArticle: React.FC<KnowledgeArticleProps> = ({
@@ -17,7 +18,8 @@ const KnowledgeArticle: React.FC<KnowledgeArticleProps> = ({
   description,
   category,
   readingTime,
-  slug
+  slug,
+  views = 0
 }) => {
   return (
     <GlassCard className="flex flex-col h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
@@ -37,9 +39,16 @@ const KnowledgeArticle: React.FC<KnowledgeArticleProps> = ({
       </p>
       
       <div className="flex justify-between items-center mt-auto pt-3 border-t">
-        <div className="flex items-center text-xs text-muted-foreground">
-          <Clock className="h-3 w-3 mr-1" />
-          <span>{readingTime} min de lecture</span>
+        <div className="flex items-center gap-3 text-xs text-muted-foreground">
+          <span className="flex items-center">
+            <Clock className="h-3 w-3 mr-1" />
+            <span>{readingTime} min</span>
+          </span>
+          
+          <span className="flex items-center">
+            <Eye className="h-3 w-3 mr-1" />
+            <span>{views} vues</span>
+          </span>
         </div>
         
         <Button variant="link" className="p-0 h-auto" asChild>

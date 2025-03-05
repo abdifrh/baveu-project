@@ -42,6 +42,7 @@ const KnowledgeBase = () => {
                       category={article.category}
                       readingTime={article.readingTime}
                       slug={article.slug}
+                      views={article.views}
                     />
                   ))}
               </div>
