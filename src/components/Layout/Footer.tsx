@@ -14,8 +14,13 @@ const Footer = () => {
             <Link to="/" className="flex items-center">
               <img 
                 src="/lovable-uploads/57a09eb7-2124-46b0-9e3a-ef34f5074432.png" 
-                alt="BAVEU Logo" 
-                className="h-6 md:h-8 w-auto"
+                alt="BAVEU Logo Light" 
+                className="h-6 md:h-8 w-auto dark:hidden"
+              />
+              <img 
+                src="/lovable-uploads/e11ec289-300f-4617-aada-a3614f607ae3.png" 
+                alt="BAVEU Logo Dark" 
+                className="h-6 md:h-8 w-auto hidden dark:block"
               />
               <span className="sr-only">BAVEU</span>
             </Link>

@@ -6,8 +6,7 @@ export interface Message {
   createdAt: Date;
 }
 
-// Clé API AIML
-const AIML_API_KEY = 'b1422c38a2f449d18d57efe78fb1e0e2';
+export type ApiProvider = 'aiml' | 'openai';
 
 // Message système qui établit le contexte juridique musical
 const SYSTEM_MESSAGE = `Vous êtes un assistant juridique spécialisé dans l'industrie musicale, conçu pour aider les artistes indépendants à comprendre les aspects juridiques et contractuels de leur carrière musicale.
@@ -146,14 +145,113 @@ const getFallbackResponse = (question: string): string => {
   return FALLBACK_RESPONSES["default"];
 };
 
-// Fonction pour envoyer un message à l'API AIML
+// Fonction pour appeler l'API AIML
+const callAimlApi = async (
+  formattedMessages: any[],
+  onSuccess: (response: any) => void,
+  onError: (error: Error) => void
+) => {
+  try {
+    const apiKey = localStorage.getItem('baveu-api-key') || 'b1422c38a2f449d18d57efe78fb1e0e2';
+    
+    const response = await fetch('https://api.aiml-api.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        messages: formattedMessages,
+        model: 'gpt-4',
+        max_tokens: 1000
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erreur API: ${response.status}`);
+    }
+
+    const data = await response.json();
+    onSuccess(data);
+    
+  } catch (error) {
+    console.error('Erreur lors de l\'appel à l\'API AIML:', error);
+    onError(error as Error);
+  }
+};
+
+// Fonction pour appeler l'API OpenAI
+const callOpenAiApi = async (
+  formattedMessages: any[],
+  onSuccess: (response: any) => void,
+  onError: (error: Error) => void
+) => {
+  try {
+    const apiKey = localStorage.getItem('baveu-api-key') || '';
+    
+    if (!apiKey) {
+      throw new Error('Clé API OpenAI manquante. Veuillez configurer votre clé API dans les paramètres.');
+    }
+    
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        messages: formattedMessages,
+        model: 'gpt-4o',
+        max_tokens: 1000
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erreur API OpenAI: ${response.status}`);
+    }
+
+    const data = await response.json();
+    onSuccess(data);
+    
+  } catch (error) {
+    console.error('Erreur lors de l\'appel à l\'API OpenAI:', error);
+    onError(error as Error);
+  }
+};
+
+// Fonction pour envoyer un message à l'API
 export const sendMessageToAIML = async (
   messages: Message[],
   onMessageReceived: (message: Message) => void,
   onError: (error: Error) => void
 ) => {
   try {
-    // Préparer les messages pour l'API AIML
+    // Vérifier si on est en mode hors ligne
+    const useOfflineMode = localStorage.getItem('baveu-offline-mode') !== 'false';
+    
+    if (useOfflineMode) {
+      // Utiliser les réponses prédéfinies en mode hors ligne
+      const lastUserMessage = messages.filter(m => m.role === 'user').pop();
+      const fallbackResponse = lastUserMessage 
+        ? getFallbackResponse(lastUserMessage.content)
+        : FALLBACK_RESPONSES["default"];
+      
+      const fallbackMessage: Message = {
+        id: Math.random().toString(36).substring(2, 15),
+        role: 'assistant',
+        content: fallbackResponse,
+        createdAt: new Date()
+      };
+      
+      // Ajouter un délai pour simuler une réponse réseau
+      setTimeout(() => {
+        onMessageReceived(fallbackMessage);
+      }, 1000);
+      
+      return;
+    }
+    
+    // Préparer les messages pour l'API
     const systemMessage = {
       role: 'system',
       content: SYSTEM_MESSAGE
@@ -168,39 +266,34 @@ export const sendMessageToAIML = async (
     ];
 
     try {
-      // Appel à l'API AIML - Correction de l'URL et du format
-      const response = await fetch('https://api.aiml-api.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${AIML_API_KEY}`
-        },
-        body: JSON.stringify({
-          messages: formattedMessages,
-          model: 'gpt-4',
-          max_tokens: 1000
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Erreur API: ${response.status}`);
-      }
-
-      const data = await response.json();
+      // Déterminer quel fournisseur d'API utiliser
+      const apiProvider = localStorage.getItem('baveu-api-provider') as ApiProvider || 'aiml';
       
-      // Créer un nouveau message avec la réponse
-      const newMessage: Message = {
-        id: Math.random().toString(36).substring(2, 15),
-        role: 'assistant',
-        content: data.choices[0].message.content,
-        createdAt: new Date()
+      const handleApiSuccess = (data: any) => {
+        // Créer un nouveau message avec la réponse
+        const newMessage: Message = {
+          id: Math.random().toString(36).substring(2, 15),
+          role: 'assistant',
+          content: data.choices[0].message.content,
+          createdAt: new Date()
+        };
+        
+        // Appeler le callback avec le nouveau message
+        onMessageReceived(newMessage);
       };
-
-      // Appeler le callback avec le nouveau message
-      onMessageReceived(newMessage);
+      
+      if (apiProvider === 'openai') {
+        await callOpenAiApi(formattedMessages, handleApiSuccess, (error) => {
+          throw error;
+        });
+      } else {
+        await callAimlApi(formattedMessages, handleApiSuccess, (error) => {
+          throw error;
+        });
+      }
       
     } catch (error) {
-      console.error('Erreur lors de l\'appel à l\'API AIML:', error);
+      console.error('Erreur lors de l\'appel à l\'API:', error);
       
       // Utiliser une réponse de secours en cas d'échec de l'API
       const lastUserMessage = messages.filter(m => m.role === 'user').pop();

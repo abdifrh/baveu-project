@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ThemeToggle from '@/components/UI/ThemeToggle';
+import ApiSettingsButton from '@/components/UI/ApiSettingsButton';
 
 const NavLinks = [
   { name: 'Accueil', path: '/' },
@@ -47,8 +48,13 @@ const Navbar = () => {
         >
           <img 
             src="/lovable-uploads/57a09eb7-2124-46b0-9e3a-ef34f5074432.png" 
-            alt="BAVEU Logo" 
-            className="h-8 md:h-10 w-auto transition-all duration-300"
+            alt="BAVEU Logo Light" 
+            className="h-8 md:h-10 w-auto transition-all duration-300 dark:hidden"
+          />
+          <img 
+            src="/lovable-uploads/e11ec289-300f-4617-aada-a3614f607ae3.png" 
+            alt="BAVEU Logo Dark" 
+            className="h-8 md:h-10 w-auto transition-all duration-300 hidden dark:block"
           />
           <span className="sr-only">BAVEU</span>
         </Link>
@@ -71,11 +77,15 @@ const Navbar = () => {
               </Link>
             ))}
           </nav>
-          <ThemeToggle />
+          <div className="flex items-center space-x-2">
+            <ApiSettingsButton />
+            <ThemeToggle />
+          </div>
         </div>
 
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center space-x-4">
+          <ApiSettingsButton />
           <ThemeToggle />
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
