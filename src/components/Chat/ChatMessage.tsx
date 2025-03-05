@@ -76,8 +76,34 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
               ))}
             </div>
           ) : (
-            <div className="prose prose-sm max-w-none prose-headings:mt-2 prose-headings:mb-1 prose-p:my-1 prose-pre:my-2 prose-pre:bg-muted/50 prose-pre:p-2 prose-pre:rounded-md break-words dark:prose-invert">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            <div className="prose prose-sm max-w-none dark:prose-invert">
+              <ReactMarkdown 
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  h1: ({node, ...props}) => <h1 className="text-xl font-bold mt-3 mb-2 pb-1 border-b" {...props} />,
+                  h2: ({node, ...props}) => <h2 className="text-lg font-bold mt-3 mb-2 pb-1 border-b border-opacity-20" {...props} />,
+                  h3: ({node, ...props}) => <h3 className="text-base font-bold mt-3 mb-1" {...props} />,
+                  h4: ({node, ...props}) => <h4 className="text-sm font-bold mt-2 mb-1" {...props} />,
+                  p: ({node, ...props}) => <p className="my-2 leading-relaxed" {...props} />,
+                  ul: ({node, ...props}) => <ul className="my-2 pl-6 list-disc" {...props} />,
+                  ol: ({node, ...props}) => <ol className="my-2 pl-6 list-decimal" {...props} />,
+                  li: ({node, ...props}) => <li className="mt-1" {...props} />,
+                  blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-primary pl-4 my-2 italic" {...props} />,
+                  code: ({node, inline, ...props}) => 
+                    inline ? (
+                      <code className="px-1.5 py-0.5 bg-muted rounded text-xs" {...props} />
+                    ) : (
+                      <code className="block bg-muted p-3 rounded-md text-xs overflow-x-auto my-2" {...props} />
+                    ),
+                  a: ({node, ...props}) => <a className="text-primary hover:underline" {...props} />,
+                  table: ({node, ...props}) => <div className="overflow-x-auto my-4"><table className="border-collapse w-full text-sm" {...props} /></div>,
+                  th: ({node, ...props}) => <th className="border border-muted p-2 bg-muted/50 font-medium" {...props} />,
+                  td: ({node, ...props}) => <td className="border border-muted p-2" {...props} />,
+                  hr: ({node, ...props}) => <hr className="my-4 border-muted" {...props} />,
+                  strong: ({node, ...props}) => <strong className="font-bold" {...props} />,
+                  em: ({node, ...props}) => <em className="italic" {...props} />,
+                }}
+              >
                 {message.content}
               </ReactMarkdown>
             </div>
