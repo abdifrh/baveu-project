@@ -11,6 +11,7 @@ import KnowledgeBase from "./pages/KnowledgeBase";
 import KnowledgeArticleDetail from "./pages/KnowledgeArticleDetail";
 import MusicProfessionals from "./pages/MusicProfessionals";
 import ProfessionalDetail from "./pages/ProfessionalDetail";
+import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
 import { useEffect } from "react";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -45,6 +46,7 @@ const App = () => {
               <Route path="/kb/:slug" element={<KnowledgeArticleDetail />} />
               <Route path="/professionals" element={<MusicProfessionals />} />
               <Route path="/professionals/:id" element={<ProfessionalDetail />} />
+              <Route path="/pricing" element={<Pricing />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AuthProvider>

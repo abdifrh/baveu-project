@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { LogIn, LogOut, UserCircle, Zap } from 'lucide-react';
+import { LogIn, LogOut, UserCircle, Zap, CreditCard } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
 const UserMenu = () => {
@@ -73,6 +73,13 @@ const UserMenu = () => {
           <Link to="/profile" className="cursor-pointer flex w-full items-center">
             <UserCircle className="mr-2 h-4 w-4" />
             <span>Profil</span>
+          </Link>
+        </DropdownMenuItem>
+        
+        <DropdownMenuItem asChild>
+          <Link to="/pricing" className="cursor-pointer flex w-full items-center">
+            <CreditCard className="mr-2 h-4 w-4" />
+            <span>Forfaits</span>
           </Link>
         </DropdownMenuItem>
         
