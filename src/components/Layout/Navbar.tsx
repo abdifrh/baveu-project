@@ -10,6 +10,7 @@ const NavLinks = [
   { name: 'Accueil', path: '/' },
   { name: 'Assistant', path: '/assistant' },
   { name: 'Base de Connaissances', path: '/knowledge-base' },
+  { name: 'Professionnels', path: '/professionals' },
 ];
 
 const Navbar = () => {

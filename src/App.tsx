@@ -8,6 +8,8 @@ import Index from "./pages/Index";
 import Assistant from "./pages/Assistant";
 import KnowledgeBase from "./pages/KnowledgeBase";
 import KnowledgeArticleDetail from "./pages/KnowledgeArticleDetail";
+import MusicProfessionals from "./pages/MusicProfessionals";
+import ProfessionalDetail from "./pages/ProfessionalDetail";
 import NotFound from "./pages/NotFound";
 import { useEffect } from "react";
 
@@ -37,6 +39,8 @@ const App = () => {
             <Route path="/assistant" element={<Assistant />} />
             <Route path="/knowledge-base" element={<KnowledgeBase />} />
             <Route path="/kb/:slug" element={<KnowledgeArticleDetail />} />
+            <Route path="/professionals" element={<MusicProfessionals />} />
+            <Route path="/professionals/:id" element={<ProfessionalDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
