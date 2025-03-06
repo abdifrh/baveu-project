@@ -3,16 +3,13 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MessageSquare, BookOpen, Lightbulb, Shield, ArrowRight, Sparkles, Music, Award, ZapIcon } from 'lucide-react';
 import GlassCard from '@/components/UI/GlassCard';
-import Navbar from '@/components/Layout/Navbar';
-import Footer from '@/components/Layout/Footer';
+import Layout from '@/components/Layout/Layout';
 
 const Index = () => {
   const navigate = useNavigate();
   
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
-
+    <Layout>
       <main className="flex-1 pt-24">
         {/* Hero Section */}
         <section className="container py-16 md:py-24">
@@ -56,6 +53,67 @@ const Index = () => {
                 <span className="text-3xl animate-float" style={{ animationDelay: '1s' }}>📝</span>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* About This Page Section */}
+        <section className="container py-16 bg-blue-50/50 dark:bg-blue-900/10 rounded-3xl my-6">
+          <div className="text-center mb-10">
+            <h2 className="font-display text-3xl md:text-4xl font-semibold mb-4">
+              Bienvenue sur BAVEU 👋
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Votre portail pour naviguer le monde juridique de la musique
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm">
+              <h3 className="font-display text-xl font-medium mb-3 flex items-center">
+                <Sparkles className="w-5 h-5 mr-2 text-blue-500" />
+                Notre Mission
+              </h3>
+              <p className="text-muted-foreground mb-4">
+                Cette page d'accueil est le point d'entrée vers tous nos outils conçus pour vous aider à comprendre, défendre et maximiser vos droits musicaux. 
+              </p>
+              <p className="text-muted-foreground">
+                Que vous soyez un artiste en début de carrière ou un professionnel établi, vous trouverez ici des ressources adaptées à vos besoins.
+              </p>
+            </div>
+            
+            <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm">
+              <h3 className="font-display text-xl font-medium mb-3 flex items-center">
+                <Award className="w-5 h-5 mr-2 text-blue-500" />
+                Nos Services
+              </h3>
+              <ul className="space-y-2 text-muted-foreground">
+                <li className="flex items-start">
+                  <span className="text-blue-500 mr-2">•</span>
+                  Assistant IA pour répondre à vos questions juridiques
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-500 mr-2">•</span>
+                  Base de connaissances détaillée sur le droit musical
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-500 mr-2">•</span>
+                  Annuaire de professionnels de la musique
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-500 mr-2">•</span>
+                  Conseils personnalisés pour votre carrière
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="mt-10 text-center">
+            <button 
+              onClick={() => navigate('/professionals')}
+              className="px-6 py-3 font-medium rounded-lg bg-gradient-to-r from-blue-600 to-blue-400 text-white hover:opacity-90 transition-opacity shadow-md"
+            >
+              Découvrir nos professionnels <Music className="inline-block ml-2 w-4 h-4" />
+            </button>
           </div>
         </section>
 
@@ -206,9 +264,7 @@ const Index = () => {
           </div>
         </section>
       </main>
-
-      <Footer />
-    </div>
+    </Layout>
   );
 };
 
