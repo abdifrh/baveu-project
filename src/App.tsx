@@ -6,12 +6,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Assistant from "./pages/Assistant";
+import Authentication from "./pages/Authentication";
 import KnowledgeBase from "./pages/KnowledgeBase";
 import KnowledgeArticleDetail from "./pages/KnowledgeArticleDetail";
 import MusicProfessionals from "./pages/MusicProfessionals";
 import ProfessionalDetail from "./pages/ProfessionalDetail";
 import NotFound from "./pages/NotFound";
 import { useEffect } from "react";
+import { AuthProvider } from "./contexts/AuthContext";
 
 const queryClient = new QueryClient();
 
@@ -34,15 +36,18 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/assistant" element={<Assistant />} />
-            <Route path="/knowledge-base" element={<KnowledgeBase />} />
-            <Route path="/kb/:slug" element={<KnowledgeArticleDetail />} />
-            <Route path="/professionals" element={<MusicProfessionals />} />
-            <Route path="/professionals/:id" element={<ProfessionalDetail />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <AuthProvider>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/auth" element={<Authentication />} />
+              <Route path="/assistant" element={<Assistant />} />
+              <Route path="/knowledge-base" element={<KnowledgeBase />} />
+              <Route path="/kb/:slug" element={<KnowledgeArticleDetail />} />
+              <Route path="/professionals" element={<MusicProfessionals />} />
+              <Route path="/professionals/:id" element={<ProfessionalDetail />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

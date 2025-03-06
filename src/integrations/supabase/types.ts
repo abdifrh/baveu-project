@@ -9,7 +9,54 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      guest_questions: {
+        Row: {
+          ip_address: string
+          last_question_at: string | null
+          questions_count: number
+        }
+        Insert: {
+          ip_address: string
+          last_question_at?: string | null
+          questions_count?: number
+        }
+        Update: {
+          ip_address?: string
+          last_question_at?: string | null
+          questions_count?: number
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+          messages_reset_date: string
+          messages_sent_today: number
+          subscription_plan: Database["public"]["Enums"]["subscription_plan"]
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id: string
+          messages_reset_date?: string
+          messages_sent_today?: number
+          subscription_plan?: Database["public"]["Enums"]["subscription_plan"]
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          messages_reset_date?: string
+          messages_sent_today?: number
+          subscription_plan?: Database["public"]["Enums"]["subscription_plan"]
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +65,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      subscription_plan: "free" | "basic" | "premium"
     }
     CompositeTypes: {
       [_ in never]: never

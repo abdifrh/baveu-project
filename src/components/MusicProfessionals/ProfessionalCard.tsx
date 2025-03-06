@@ -3,9 +3,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Professional } from '@/data/musicProfessionalsData';
 import GlassCard from '@/components/UI/GlassCard';
-import { Calendar, MapPin, Tag } from 'lucide-react';
+import { Calendar, MapPin, Tag, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface ProfessionalCardProps {
   professional: Professional;
@@ -17,6 +18,7 @@ const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
   showDistance = false 
 }) => {
   const { id, name, category, location, distance, avatar, tags, createdAt } = professional;
+  const { user } = useAuth();
   
   // Formatage de la date en français
   const formattedDate = new Date(createdAt).toLocaleDateString('fr-FR', {
@@ -75,9 +77,18 @@ const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
           <span>Depuis le {formattedDate}</span>
         </div>
         
-        <Button variant="link" className="p-0 h-auto" asChild>
-          <Link to={`/professionals/${id}`}>Voir le profil</Link>
-        </Button>
+        {!user ? (
+          <Button variant="outline" size="sm" className="p-2 h-auto" asChild>
+            <Link to="/auth" className="flex items-center gap-1 text-xs">
+              <Lock className="h-3 w-3" />
+              <span>Créer un compte pour voir</span>
+            </Link>
+          </Button>
+        ) : (
+          <Button variant="link" className="p-0 h-auto" asChild>
+            <Link to={`/professionals/${id}`}>Voir le profil</Link>
+          </Button>
+        )}
       </div>
     </GlassCard>
   );

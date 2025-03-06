@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Layout from '@/components/Layout/Layout';
@@ -24,17 +23,24 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import GlassCard from '@/components/UI/GlassCard';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
+import { Lock, ShieldAlert } from 'lucide-react';
 
 const ProfessionalDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [liked, setLiked] = useState(false);
+  const { user } = useAuth();
   
-  // Trouver le professionnel correspondant à l'ID
+  useEffect(() => {
+    if (!user) {
+      navigate('/auth');
+    }
+  }, [user, navigate]);
+  
   const professional = musicProfessionals.find(p => p.id === id);
   
-  // Vérifier si le professionnel a été "liké" auparavant
   useEffect(() => {
     if (id) {
       const likedProfessionals = JSON.parse(localStorage.getItem('likedProfessionals') || '{}');
@@ -42,7 +48,6 @@ const ProfessionalDetail = () => {
     }
   }, [id]);
   
-  // Gérer le "like" d'un professionnel
   const handleLike = () => {
     if (id) {
       const likedProfessionals = JSON.parse(localStorage.getItem('likedProfessionals') || '{}');
@@ -66,7 +71,21 @@ const ProfessionalDetail = () => {
     }
   };
   
-  // Rediriger vers la page 404 si le professionnel n'existe pas
+  if (!user) {
+    return (
+      <Layout>
+        <div className="container py-32 text-center">
+          <ShieldAlert className="w-16 h-16 mx-auto text-primary mb-6" />
+          <h1 className="text-2xl font-bold mb-4">Authentification requise</h1>
+          <p className="mb-6">Vous devez être connecté pour accéder aux profils des professionnels.</p>
+          <Button onClick={() => navigate('/auth')}>
+            Se connecter ou s'inscrire
+          </Button>
+        </div>
+      </Layout>
+    );
+  }
+  
   if (!professional) {
     return (
       <Layout>
@@ -81,7 +100,6 @@ const ProfessionalDetail = () => {
     );
   }
   
-  // Formatage de la date en français
   const formattedDate = new Date(professional.createdAt).toLocaleDateString('fr-FR', {
     day: 'numeric',
     month: 'long',
@@ -101,7 +119,6 @@ const ProfessionalDetail = () => {
         </Button>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Sidebar avec les informations du professionnel */}
           <div className="lg:col-span-1">
             <GlassCard className="sticky top-24">
               <div className="flex flex-col items-center text-center mb-6">
@@ -229,7 +246,6 @@ const ProfessionalDetail = () => {
             </GlassCard>
           </div>
           
-          {/* Contenu principal avec les travaux */}
           <div className="lg:col-span-2">
             <h2 className="text-2xl font-bold mb-6 flex items-center">
               <Music2 className="h-6 w-6 mr-2 text-primary" />

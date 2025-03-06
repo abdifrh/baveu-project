@@ -38,6 +38,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { generatePDF } from '@/utils/pdfGenerator';
+import { useAuth } from '@/contexts/AuthContext';
+import { Link } from 'react-router-dom';
 
 const ChatInterface = () => {
   const { 
@@ -54,6 +56,7 @@ const ChatInterface = () => {
     clearAllSessions
   } = useChat();
   
+  const { user, profile, canAskQuestion, incrementUserMessages, incrementGuestQuestions } = useAuth();
   const [inputValue, setInputValue] = useState('');
   const [showSessionsSheet, setShowSessionsSheet] = useState(false);
   const [renameDialogOpen, setRenameDialogOpen] = useState(false);
@@ -74,11 +77,28 @@ const ChatInterface = () => {
     inputRef.current?.focus();
   }, [activeSessionId]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!inputValue.trim()) {
       return;
+    }
+    
+    const canAsk = await canAskQuestion();
+    
+    if (!canAsk) {
+      if (user) {
+        toast.error(`Vous avez atteint votre limite quotidienne de messages pour votre forfait ${profile?.subscription_plan || 'actuel'}.`);
+      } else {
+        toast.error('En tant qu\'invité, vous êtes limité à 2 questions. Créez un compte pour continuer.');
+      }
+      return;
+    }
+    
+    if (user) {
+      await incrementUserMessages();
+    } else {
+      await incrementGuestQuestions();
     }
     
     sendMessage(inputValue);
@@ -298,6 +318,17 @@ const ChatInterface = () => {
                   Qu'est-ce que les redevances mécaniques ?
                 </button>
               </div>
+              
+              {!user && (
+                <div className="mt-6 p-3 border border-yellow-200 bg-yellow-50 dark:bg-yellow-900/20 dark:border-yellow-800 rounded-md text-sm">
+                  <p className="text-yellow-800 dark:text-yellow-200">
+                    En tant qu'invité, vous êtes limité à 2 questions. 
+                    <Link to="/auth" className="ml-1 underline font-medium">
+                      Créez un compte gratuit
+                    </Link> pour en poser davantage.
+                  </p>
+                </div>
+              )}
             </div>
           ) : (
             <>
@@ -345,6 +376,26 @@ const ChatInterface = () => {
               )}
             </button>
           </div>
+          
+          {user && profile ? (
+            <div className="mt-2 text-xs text-muted-foreground">
+              <span>{profile.messages_sent_today}</span>
+              <span> / </span>
+              <span>
+                {profile.subscription_plan === 'free' ? '5' : 
+                 profile.subscription_plan === 'basic' ? '25' : '100'}
+              </span>
+              <span> messages aujourd'hui (forfait {profile.subscription_plan})</span>
+            </div>
+          ) : !user ? (
+            <div className="mt-2 text-xs text-muted-foreground">
+              <span>En tant qu'invité, vous êtes limité à 2 questions. </span>
+              <Link to="/auth" className="underline">
+                Créez un compte
+              </Link>
+              <span> pour en poser davantage.</span>
+            </div>
+          ) : null}
         </form>
       </GlassCard>
       
