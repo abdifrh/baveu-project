@@ -1,16 +1,14 @@
 
 import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 import PageHeader from '@/components/UI/PageHeader';
 import Layout from '@/components/Layout/Layout';
 import ProfessionalCard from '@/components/MusicProfessionals/ProfessionalCard';
 import ProfessionalFilters from '@/components/MusicProfessionals/ProfessionalFilters';
 import { musicProfessionals, ProfessionalCategory, SortOption } from '@/data/musicProfessionalsData';
-import { MusicIcon, PanelLeftClose, PanelLeftOpen, UsersRound } from 'lucide-react';
+import { MusicIcon, UsersRound } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const MusicProfessionals = () => {
-  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<ProfessionalCategory | ''>('');
   const [selectedLocation, setSelectedLocation] = useState('');

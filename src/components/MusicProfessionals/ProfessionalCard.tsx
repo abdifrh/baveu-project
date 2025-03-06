@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Professional } from '@/data/musicProfessionalsData';
 import GlassCard from '@/components/UI/GlassCard';
-import { Calendar, MapPin, Star, Tag } from 'lucide-react';
+import { Calendar, MapPin, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
@@ -16,7 +16,7 @@ const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
   professional, 
   showDistance = false 
 }) => {
-  const { id, name, category, location, distance, avatar, rating, tags, createdAt } = professional;
+  const { id, name, category, location, distance, avatar, tags, createdAt } = professional;
   
   // Formatage de la date en français
   const formattedDate = new Date(createdAt).toLocaleDateString('fr-FR', {
@@ -34,12 +34,6 @@ const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
             alt={name}
             className="w-16 h-16 rounded-full object-cover shadow-sm border border-white/40 dark:border-slate-700/60"
           />
-          <div className="absolute -top-1 -right-1 bg-background rounded-full p-0.5 shadow-sm border border-border">
-            <Badge variant="default" className="h-5 rounded-full flex items-center font-medium text-[10px]">
-              <Star className="h-3 w-3 mr-0.5 text-yellow-400" />
-              {rating.toFixed(1)}
-            </Badge>
-          </div>
         </div>
         
         <div className="flex-1">

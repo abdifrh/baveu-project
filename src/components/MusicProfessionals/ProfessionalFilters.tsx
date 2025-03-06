@@ -17,7 +17,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ProfessionalCategory, SortOption, categories, sortOptions } from '@/data/musicProfessionalsData';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
@@ -135,7 +134,9 @@ const ProfessionalFilters: React.FC<ProfessionalFiltersProps> = ({
                   <Button variant="outline" size="sm" onClick={resetFilters}>
                     Réinitialiser
                   </Button>
-                  <Button size="sm">Appliquer</Button>
+                  <Button size="sm" onClick={() => document.body.click()}>
+                    Appliquer
+                  </Button>
                 </div>
               </div>
             </PopoverContent>
