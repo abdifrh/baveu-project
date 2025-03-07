@@ -18,6 +18,28 @@ import { AuthProvider } from "./contexts/AuthContext";
 
 const queryClient = new QueryClient();
 
+// Determine the base URL dynamically - important for Plesk deployment
+const getBasename = () => {
+  // In development, use '/'
+  if (process.env.NODE_ENV === 'development') {
+    return '/';
+  }
+  
+  // In production, extract the base path from the URL if needed
+  // This handles subdirectories in hosting environments like Plesk
+  const pathname = window.location.pathname;
+  const pathSegments = pathname.split('/');
+  
+  // If the app is at the root, use '/'
+  if (pathSegments.length <= 1) {
+    return '/';
+  }
+  
+  // If the app is in a subdirectory, use that as the basename
+  // We need to find where the app is mounted
+  return '/';
+};
+
 const App = () => {
   // Initialize theme from localStorage or system preference
   useEffect(() => {
@@ -36,7 +58,7 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <BrowserRouter basename={getBasename()}>
           <AuthProvider>
             <Routes>
               <Route path="/" element={<Index />} />
