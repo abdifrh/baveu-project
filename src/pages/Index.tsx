@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MessageSquare, BookOpen, Lightbulb, Shield, ArrowRight, Sparkles, Music, Award, ZapIcon } from 'lucide-react';
@@ -170,6 +169,30 @@ const Index = () => {
                 Obtenir des conseils <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </GlassCard>
+          </div>
+        </section>
+
+        {/* Pricing CTA Section */}
+        <section className="container py-16 md:py-20 relative">
+          <div className="bg-gradient-to-r from-blue-600 to-blue-400 rounded-2xl p-8 md:p-12 shadow-xl text-white relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-full bg-pattern opacity-10"></div>
+            <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+              <div>
+                <h2 className="font-display text-2xl md:text-3xl font-semibold mb-4">
+                  Prêt à aller plus loin? 🚀
+                </h2>
+                <p className="text-blue-100 mb-0 max-w-xl">
+                  Découvrez nos forfaits adaptés à tous les artistes, du débutant au professionnel. Commencez gratuitement et évoluez selon vos besoins.
+                </p>
+              </div>
+              <button 
+                onClick={() => navigate('/pricing')} 
+                className="px-6 py-3 bg-white text-blue-600 font-medium rounded-lg hover:bg-blue-50 transition-colors whitespace-nowrap shadow-md hover:shadow-lg flex items-center gap-2 group"
+              >
+                Voir les forfaits
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
           </div>
         </section>
 

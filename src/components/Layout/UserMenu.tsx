@@ -30,12 +30,20 @@ const UserMenu = () => {
 
   if (!user) {
     return (
-      <Button variant="ghost" size="sm" className="gap-2" asChild>
-        <Link to="/auth">
-          <LogIn className="h-4 w-4" />
-          <span>Connexion</span>
-        </Link>
-      </Button>
+      <div className="flex items-center gap-2">
+        <Button variant="ghost" size="sm" className="gap-2" asChild>
+          <Link to="/pricing">
+            <CreditCard className="h-4 w-4" />
+            <span>Forfaits</span>
+          </Link>
+        </Button>
+        <Button variant="ghost" size="sm" className="gap-2" asChild>
+          <Link to="/auth">
+            <LogIn className="h-4 w-4" />
+            <span>Connexion</span>
+          </Link>
+        </Button>
+      </div>
     );
   }
 

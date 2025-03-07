@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, Book, Music2, Info, X } from 'lucide-react';
+import { Menu, Book, Music2, Info, X, CreditCard } from 'lucide-react';
 import ThemeToggle from '@/components/UI/ThemeToggle';
 import ApiSettingsButton from '@/components/UI/ApiSettingsButton';
 import { Button } from '@/components/ui/button';
@@ -27,6 +27,7 @@ const Navbar = () => {
     { name: 'Mr BAVEU', href: '/assistant', icon: <Info className="h-4 w-4 mr-2" /> },
     { name: 'Base de connaissances', href: '/knowledge-base', icon: <Book className="h-4 w-4 mr-2" /> },
     { name: 'Professionnels', href: '/professionals', icon: <Music2 className="h-4 w-4 mr-2" /> },
+    { name: 'Forfaits', href: '/pricing', icon: <CreditCard className="h-4 w-4 mr-2" /> },
   ];
 
   const isActive = (path: string) => {
