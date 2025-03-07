@@ -1,6 +1,4 @@
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Session, User } from '@supabase/supabase-js';
 import { toast } from 'sonner';
@@ -38,7 +36,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserProfile = async (userId: string) => {
@@ -119,10 +116,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
       
       toast.success('Connexion réussie');
-      navigate('/');
     } catch (error: any) {
       console.error('Sign in error:', error);
       toast.error(error.message || 'Erreur de connexion');
+      throw error;
     }
   };
 
@@ -146,6 +143,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch (error: any) {
       console.error('Sign up error:', error);
       toast.error(error.message || 'Erreur lors de l\'inscription');
+      throw error;
     }
   };
 
@@ -157,11 +155,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         throw error;
       }
       
-      toast.success('Déconnexion réussie');
-      navigate('/');
+      // Nous ne naviguons plus ici car cela sera fait dans le composant
+      setUser(null);
+      setProfile(null);
+      setSession(null);
     } catch (error: any) {
       console.error('Sign out error:', error);
       toast.error(error.message || 'Erreur lors de la déconnexion');
+      throw error;
     }
   };
 

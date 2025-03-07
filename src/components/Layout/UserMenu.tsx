@@ -1,14 +1,16 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { LogIn, LogOut, UserCircle, Zap, CreditCard } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { toast } from 'sonner';
 
 const UserMenu = () => {
   const { user, profile, signOut } = useAuth();
+  const navigate = useNavigate();
   
   // Obtenir les initiales pour l'avatar
   const getInitials = () => {
@@ -25,6 +27,17 @@ const UserMenu = () => {
       case 'basic': return 'text-blue-500';
       case 'free': return 'text-green-500';
       default: return '';
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast.success('Déconnexion réussie');
+      navigate('/');
+    } catch (error: any) {
+      console.error('Erreur lors de la déconnexion:', error);
+      toast.error(error.message || 'Erreur lors de la déconnexion');
     }
   };
 
@@ -88,7 +101,7 @@ const UserMenu = () => {
         <DropdownMenuSeparator />
         
         <DropdownMenuItem 
-          onClick={() => signOut()}
+          onClick={handleSignOut}
           className="cursor-pointer text-red-500 focus:text-red-500"
         >
           <LogOut className="mr-2 h-4 w-4" />
